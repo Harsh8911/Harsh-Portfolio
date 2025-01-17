@@ -34,9 +34,9 @@ const Header = () => {
   return (
     <nav className={`fixed w-full top-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 transition-colors duration-200`}>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Left side - Social Icons */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-4 lg:gap-6">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
@@ -53,24 +53,25 @@ const Header = () => {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+            className="md:hidden text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 p-2"
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             ) : (
-              <Menu size={28} />
+              <Menu size={24} />
             )}
           </button>
 
           {/* Center - Name */}
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 absolute left-1/2 -translate-x-1/2 hidden md:block hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 absolute left-1/2 -translate-x-1/2 hidden md:block hover:text-blue-500 dark:hover:text-blue-400 transition-colors font-playfair">
             Harsh Gawali
           </h1>
 
           {/* Mobile name */}
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 md:hidden">
+          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 md:hidden font-playfair">
             Harsh Gawali
           </h1>
 
@@ -80,7 +81,7 @@ const Header = () => {
             <a href="#skills" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Skills</a>
             <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Contact</a>
             <a href="https://drive.google.com/file/d/1qd5i3VriDz3HyW8UpmGr6fKqAVD0PNTj/view" target="_blank" rel="noopener noreferrer">
-              <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded transition-all">
+              <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all">
                 <Download size={16} />
                 Resume
               </button>
@@ -90,15 +91,15 @@ const Header = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-white dark:bg-gray-900 transition-colors duration-200`}>
-        <div className="px-4 py-4 space-y-4">
+      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-white dark:bg-gray-900 transition-colors duration-200 border-b border-gray-200 dark:border-gray-800`}>
+        <div className="px-4 py-4 space-y-3">
           {/* Social icons in mobile menu */}
-          <div className="flex justify-center gap-8 py-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex flex-wrap justify-center gap-6 py-3 border-b border-gray-200 dark:border-gray-800">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
-                className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-all"
+                className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-all p-2"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -108,11 +109,11 @@ const Header = () => {
           </div>
 
           {/* Navigation links in mobile menu */}
-          <a href="#about" className="block text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">About</a>
-          <a href="#skills" className="block text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Skills</a>
-          <a href="#contact" className="block text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Contact</a>
+          <a href="#about" className="block py-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">About</a>
+          <a href="#skills" className="block py-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Skills</a>
+          <a href="#contact" className="block py-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Contact</a>
           <a href="https://drive.google.com/file/d/1qd5i3VriDz3HyW8UpmGr6fKqAVD0PNTj/view" target="_blank" rel="noopener noreferrer">
-            <button className="w-full flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded transition-all">
+            <button className="w-full flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-all mt-2">
               <Download size={16} />
               Resume
             </button>

@@ -9,28 +9,28 @@ const Projects = () => {
     {
       name: 'Heroic Vault',
       description: 'It is Heritage and Culture website which showcase the Virtual Museum.',
-      image: '/images/H.png',
+      image: './src/images/H.png',
       demoUrl: 'https://heroic-vault.vercel.app/',
-      techStack: ['Virtual Reality', 'React', 'Three.js','WebGL']
+      techStack: ['Virtual Reality', 'React', 'Three.js', 'WebGL']
     },
     {
       name: 'Vitalian',
       description: 'Virtual Realty based Health Surgery and Body Information Website.',
-      image: '/images/vitalian.jpg',
+      image: './src/images/vitalian.jpg',
       demoUrl: 'https://vitalian.vercel.app/',
       techStack: ['Virtual Reality', 'HTML/CSS', 'Three.js']
     },
     {
       name: 'Stellar',
       description: 'Virtual Reality based constellations viewing and exploring website.',
-      image: '/images/Stellar-logo.png',
+      image: './src/images/Stellar-logo.png',
       demoUrl: 'https://stellar-eta-one.vercel.app/',
       techStack: ['Virtual Reality', 'HTML/CSS', 'JavaScript']
     }
   ];
 
   return (
-    <section className="py-12 min-h-[713px] w-full bg-white dark:bg-gray-900 transition-colors duration-200">
+    <section className="py-12 min-h-screen w-full bg-white dark:bg-gray-900 transition-colors duration-200">
       <div className="max-w-[1271px] mx-auto px-4">
         {/* Title section */}
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 mb-8">
@@ -47,28 +47,28 @@ const Projects = () => {
         </div>
 
         {isGridView ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <div
                 key={project.name}
-                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col"
               >
-                <img 
-                  src={project.image} 
-                  alt={project.name} 
-                  className="w-full h-36 object-cover"
-                />
-                <div className="p-4 flex flex-col justify-between flex-grow">
-                  <div>
-                    <h3 className="font-semibold text-base mb-2 text-gray-900 dark:text-white">{project.name}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{project.description}</p>
-                  </div>
+                <div className="relative h-48 sm:h-36">
+                  <img 
+                    src={project.image} 
+                    alt={project.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4 flex flex-col flex-grow">
+                  <h3 className="font-semibold text-base mb-2 text-gray-900 dark:text-white">{project.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex-grow">{project.description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-3">
                     {project.techStack.map((tech, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full"
+                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-700 dark:text-gray-300 rounded-full"
                       >
                         {tech}
                       </span>
@@ -79,7 +79,7 @@ const Projects = () => {
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors mt-2"
                   >
                     <ExternalLink size={16} className="mr-1" />
                     Live Demo
@@ -100,20 +100,20 @@ const Projects = () => {
           <div className="relative h-[550px] w-full max-w-[800px] mx-auto">
             <button 
               onClick={() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
             >
               <ChevronLeft size={24} />
             </button>
             
             <button 
               onClick={() => setCurrentIndex((prev) => (prev + 1) % projects.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
             >
               <ChevronRight size={24} />
             </button>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-xl h-full">
-              <div className="relative h-[400px]">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-xl h-full flex flex-col">
+              <div className="relative h-[250px] sm:h-[400px]">
                 <img 
                   src={projects[currentIndex].image} 
                   alt={projects[currentIndex].name}
@@ -121,9 +121,9 @@ const Projects = () => {
                 />
               </div>
 
-              <div className="p-6">
+              <div className="p-4 sm:p-6 flex-grow flex flex-col">
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{projects[currentIndex].name}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{projects[currentIndex].name}</h3>
                   <a 
                     href={projects[currentIndex].demoUrl}
                     target="_blank"
@@ -134,9 +134,9 @@ const Projects = () => {
                   </a>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-3">{projects[currentIndex].description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-3 flex-grow">{projects[currentIndex].description}</p>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-auto">
                   {projects[currentIndex].techStack.map((tech, index) => (
                     <span
                       key={index}
