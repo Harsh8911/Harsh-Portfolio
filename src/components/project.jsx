@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, ExternalLink, ChevronLeft, ChevronRight, Github } from 'lucide-react';
 
 const Projects = () => {
   const [isGridView, setIsGridView] = useState(false);
@@ -11,6 +11,7 @@ const Projects = () => {
       description: 'It is Heritage and Culture website which showcase the Virtual Museum.',
       image: '/images/H.png',
       demoUrl: 'https://heroic-vault.vercel.app/',
+      sourceUrl: 'https://github.com/Harsh8911/heroic-vault',
       techStack: ['Virtual Reality', 'React', 'Three.js', 'WebGL']
     },
     {
@@ -18,6 +19,7 @@ const Projects = () => {
       description: 'Virtual Realty based Health Surgery and Body Information Website.',
       image: '/images/vitalian.jpg',
       demoUrl: 'https://vitalian.vercel.app/',
+      sourceUrl: 'https://github.com/Harsh8911/vitalian',
       techStack: ['Virtual Reality', 'HTML/CSS', 'Three.js']
     },
     {
@@ -25,6 +27,7 @@ const Projects = () => {
       description: 'Virtual Reality based constellations viewing and exploring website.',
       image: '/images/Stellar-logo.png',
       demoUrl: 'https://stellar-eta-one.vercel.app/',
+      sourceUrl: 'https://github.com/Harsh8911/stellar',
       techStack: ['Virtual Reality', 'HTML/CSS', 'JavaScript']
     }
   ];
@@ -61,10 +64,10 @@ const Projects = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="font-semibold text-base mb-2 text-gray-900 dark:text-white">{project.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex-grow">{project.description}</p>
+                  <h3 className="font-semibold text-lg text-center mb-3 text-gray-900 dark:text-white">{project.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">{project.description}</p>
 
-                  <div className="flex flex-wrap gap-2 mb-3">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {project.techStack.map((tech, index) => (
                       <span
                         key={index}
@@ -75,15 +78,26 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors mt-2"
-                  >
-                    <ExternalLink size={16} className="mr-1" />
-                    Live Demo
-                  </a>
+                  <div className="flex flex-col gap-2 mt-auto">
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-2 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                    >
+                      <ExternalLink size={16} />
+                      Live Demo
+                    </a>
+                    <a
+                      href={project.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
+                      <Github size={16} />
+                      Source Code
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
@@ -122,29 +136,44 @@ const Projects = () => {
               </div>
 
               <div className="p-4 sm:p-6 flex-grow flex flex-col">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{projects[currentIndex].name}</h3>
-                  <a 
-                    href={projects[currentIndex].demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                  >
-                    Live Demo <ExternalLink size={20} />
-                  </a>
-                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+                  {projects[currentIndex].name}
+                </h3>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-3 flex-grow">{projects[currentIndex].description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 flex-grow">
+                  {projects[currentIndex].description}
+                </p>
 
-                <div className="flex flex-wrap gap-2 mt-auto">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {projects[currentIndex].techStack.map((tech, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full"
+                      className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full"
                     >
                       {tech}
                     </span>
                   ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-auto">
+                  <a
+                    href={projects[currentIndex].demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-2 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 flex-1"
+                  >
+                    <ExternalLink size={20} />
+                    Live Demo
+                  </a>
+                  <a
+                    href={projects[currentIndex].sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 flex-1"
+                  >
+                    <Github size={20} />
+                    Source Code
+                  </a>
                 </div>
               </div>
             </div>
