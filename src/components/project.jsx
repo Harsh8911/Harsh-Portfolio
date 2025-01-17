@@ -34,14 +34,14 @@ const Projects = () => {
 
   return (
     <section className="py-12 min-h-screen w-full bg-white dark:bg-gray-900 transition-colors duration-200">
-      <div className="max-w-[1271px] mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title section */}
-        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 mb-8">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 sm:p-6 mb-8">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Projects</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Projects</h2>
             <button 
               onClick={() => setIsGridView(!isGridView)}
-              className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-2"
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-2 text-sm sm:text-base"
             >
               {isGridView ? 'Show Slider' : 'Show Grid'}
               <ArrowRight size={20} />
@@ -50,40 +50,40 @@ const Projects = () => {
         </div>
 
         {isGridView ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
               <div
                 key={project.name}
                 className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col"
               >
-                <div className="relative h-48 sm:h-36">
+                <div className="relative h-48 sm:h-52 lg:h-56">
                   <img 
                     src={project.image} 
                     alt={project.name} 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="font-semibold text-lg text-center mb-3 text-gray-900 dark:text-white">{project.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow">{project.description}</p>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="font-semibold text-lg sm:text-xl text-center mb-3 text-gray-900 dark:text-white">{project.name}</h3>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-6 flex-grow">{project.description}</p>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {project.techStack.map((tech, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-700 dark:text-gray-300 rounded-full"
+                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-xs sm:text-sm text-gray-700 dark:text-gray-300 rounded-full"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex flex-col gap-2 mt-auto">
+                  <div className="flex gap-4 mt-auto">
                     <a
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-2 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-3 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30"
                     >
                       <ExternalLink size={16} />
                       Live Demo
@@ -92,7 +92,7 @@ const Projects = () => {
                       href={project.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
                     >
                       <Github size={16} />
                       Source Code
@@ -111,85 +111,87 @@ const Projects = () => {
             </div>
           </div>
         ) : (
-          <div className="relative h-[550px] w-full max-w-[800px] mx-auto">
-            <button 
-              onClick={() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length)}
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            
-            <button 
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % projects.length)}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-gray-100/80 dark:bg-gray-700/80 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white"
-            >
-              <ChevronRight size={24} />
-            </button>
+          <div className="relative max-w-4xl mx-auto">
+            <div className="h-[500px] sm:h-[600px] lg:h-[650px]">
+              <button 
+                onClick={() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length)}
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-gray-100/90 dark:bg-gray-700/90 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white transition-colors"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              
+              <button 
+                onClick={() => setCurrentIndex((prev) => (prev + 1) % projects.length)}
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-gray-100/90 dark:bg-gray-700/90 p-2 rounded-full shadow-lg hover:bg-gray-200 dark:hover:bg-gray-600 z-10 text-gray-700 dark:text-white transition-colors"
+              >
+                <ChevronRight size={24} />
+              </button>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-xl h-full flex flex-col">
-              <div className="relative h-[250px] sm:h-[400px]">
-                <img 
-                  src={projects[currentIndex].image} 
-                  alt={projects[currentIndex].name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-xl h-full flex flex-col">
+                <div className="relative h-[250px] sm:h-[350px] lg:h-[400px]">
+                  <img 
+                    src={projects[currentIndex].image} 
+                    alt={projects[currentIndex].name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
-              <div className="p-4 sm:p-6 flex-grow flex flex-col">
-                <h3 className="text-xl sm:text-2xl font-bold text-center mb-4 text-gray-900 dark:text-white">
-                  {projects[currentIndex].name}
-                </h3>
+                <div className="p-6 lg:p-8 flex-grow flex flex-col">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+                    {projects[currentIndex].name}
+                  </h3>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-4 flex-grow">
-                  {projects[currentIndex].description}
-                </p>
+                  <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mb-6 flex-grow text-center">
+                    {projects[currentIndex].description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {projects[currentIndex].techStack.map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full"
+                  <div className="flex flex-wrap justify-center gap-2 mb-6">
+                    {projects[currentIndex].techStack.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 mt-auto max-w-2xl mx-auto w-full">
+                    <a
+                      href={projects[currentIndex].demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-3 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-sm sm:text-base font-medium"
                     >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3 mt-auto">
-                  <a
-                    href={projects[currentIndex].demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors p-2 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 flex-1"
-                  >
-                    <ExternalLink size={20} />
-                    Live Demo
-                  </a>
-                  <a
-                    href={projects[currentIndex].sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 flex-1"
-                  >
-                    <Github size={20} />
-                    Source Code
-                  </a>
+                      <ExternalLink size={20} />
+                      Live Demo
+                    </a>
+                    <a
+                      href={projects[currentIndex].sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm sm:text-base font-medium"
+                    >
+                      <Github size={20} />
+                      Source Code
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex justify-center gap-2 mt-4">
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    index === currentIndex 
-                      ? 'bg-blue-500 dark:bg-blue-400 w-4' 
-                      : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
+              <div className="flex justify-center gap-2 mt-4">
+                {projects.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all ${
+                      index === currentIndex 
+                        ? 'bg-blue-500 dark:bg-blue-400 w-4' 
+                        : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         )}
