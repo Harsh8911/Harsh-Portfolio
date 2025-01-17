@@ -9,7 +9,7 @@ const About = () => {
     <>
       <strong className="text-blue-600 dark:text-blue-400">Hello,<br></br>I'm Harsh Gawali</strong>
       , and I'm from Pimpalner, Dhule where I have completed{' '}
-      <strong className="text-blue-600 dark:text-blue-400">my 10th with 91.40% </strong>
+      <strong className="text-blue-600 dark:text-blue-400">my 10th Standard with 91.40% </strong>
         and further I have completed{' '}
       <strong className="text-blue-600 dark:text-blue-400">
         Diploma in Computer Engineering in first class Distinction
@@ -25,7 +25,7 @@ const About = () => {
       <span className="line-through text-gray-400">
         , and I'm from Pimpalner, Dhule where I have completed{' '}
       </span>
-      <strong className="text-blue-600 dark:text-blue-400">my 10th with 91.40% </strong>
+      <strong className="text-blue-600 dark:text-blue-400">my 10th Standard with 91.40% </strong>
       <span className="line-through text-gray-400"> and further I have completed </span>
       <strong className="text-blue-600 dark:text-blue-400">
         Diploma in Computer Engineering in first class Distinction
