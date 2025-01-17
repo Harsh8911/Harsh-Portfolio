@@ -9,21 +9,21 @@ const Projects = () => {
     {
       name: 'Heroic Vault',
       description: 'It is Heritage and Culture website which showcase the Virtual Museum.',
-      image: './src/images/H.png',
+      image: '/images/H.png',
       demoUrl: 'https://heroic-vault.vercel.app/',
       techStack: ['Virtual Reality', 'React', 'Three.js', 'WebGL']
     },
     {
       name: 'Vitalian',
       description: 'Virtual Realty based Health Surgery and Body Information Website.',
-      image: './src/images/vitalian.jpg',
+      image: '/images/vitalian.jpg',
       demoUrl: 'https://vitalian.vercel.app/',
       techStack: ['Virtual Reality', 'HTML/CSS', 'Three.js']
     },
     {
       name: 'Stellar',
       description: 'Virtual Reality based constellations viewing and exploring website.',
-      image: './src/images/Stellar-logo.png',
+      image: '/images/Stellar-logo.png',
       demoUrl: 'https://stellar-eta-one.vercel.app/',
       techStack: ['Virtual Reality', 'HTML/CSS', 'JavaScript']
     }
