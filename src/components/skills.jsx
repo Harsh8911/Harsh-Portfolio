@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 
 const Skills = () => {
   const developmentSteps = [
@@ -71,8 +71,8 @@ const Skills = () => {
             My Development Approach
           </h2>
 
-          {/* Development Steps - Mobile Friendly */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mb-12">
+          {/* Development Steps with Mobile Arrows */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mb-12">
             {developmentSteps.map((step, index) => (
               <React.Fragment key={step.number}>
                 <div className="flex flex-col items-center">
@@ -82,9 +82,19 @@ const Skills = () => {
                       <div className="text-xs sm:text-sm">{step.title}</div>
                     </div>
                   </div>
+                  {/* Mobile Down Arrow */}
+                  {index < developmentSteps.length - 1 && (
+                    <div className="h-8 flex items-center sm:hidden mt-2">
+                      <ChevronDown size={24} className="text-gray-400 dark:text-gray-500 animate-bounce" />
+                    </div>
+                  )}
                 </div>
+                {/* Desktop Right Arrow */}
                 {index < developmentSteps.length - 1 && (
-                  <ChevronRight size={24} className="hidden sm:block text-gray-400 dark:text-gray-500" />
+                  <ChevronRight 
+                    size={24} 
+                    className="hidden sm:block text-gray-400 dark:text-gray-500" 
+                  />
                 )}
               </React.Fragment>
             ))}
@@ -104,7 +114,9 @@ const Skills = () => {
                   alt={skill.name}
                   className={`w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 ${skill.darkIcon ? "dark:invert" : ""}`}
                 />
-                <div className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">{skill.name}</div>
+                <div className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
+                  {skill.name}
+                </div>
                 <div
                   className={`text-xs sm:text-sm ${
                     skill.level === "Advanced"
