@@ -7,7 +7,7 @@ const About = () => {
 
   const fullText = (
     <>
-      <strong className="text-blue-600 dark:text-blue-400">Hi,<br></br>I'm Harsh Gawali</strong>
+      <strong className="text-blue-600 dark:text-blue-400">Hello,<br></br>I'm Harsh Gawali</strong>
       , and I'm from Pimpalner, Dhule where I have completed{' '}
       <strong className="text-blue-600 dark:text-blue-400">my 10th with 91.40% </strong>
         and further I have completed{' '}
@@ -21,7 +21,7 @@ const About = () => {
 
   const condensedText = (
     <>
-      <strong className="text-blue-600 dark:text-blue-400">Hi,<br></br> I'm Harsh Gawali</strong>
+      <strong className="text-blue-600 dark:text-blue-400">Hello,<br></br> I'm Harsh Gawali</strong>
       <span className="line-through text-gray-400">
         , and I'm from Pimpalner, Dhule where I have completed{' '}
       </span>
