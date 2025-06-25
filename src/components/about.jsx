@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Code, Palette, Zap } from 'lucide-react';
-import profileImage from '../assets/harshgawali.jpeg';
+import profileImage from '../assets/harshgawali.jpg';
 
 const About = () => {
   const [showFull, setShowFull] = useState(true);

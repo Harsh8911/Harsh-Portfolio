@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download, Linkedin, Github } from 'lucide-react';
-import profileImage from '../assets/harshgawali.jpeg';
+import profileImage from '../assets/harshgawali.jpg';
 
 const Hero = () => {
   const socialLinks = [
