@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, ExternalLink, Calendar, CheckCircle, Sparkles } from 'lucide-react';
+import { Award, ExternalLink, Calendar, CheckCircle } from 'lucide-react';
 
 const CertificationsSection = () => {
   const certifications = [
@@ -10,7 +10,8 @@ const CertificationsSection = () => {
       icon: '🔧',
       color: 'from-orange-400 to-red-500',
       skills: ['Git', 'Version Control', 'Collaboration', 'Branching'],
-      status: 'Completed'
+      status: 'Completed',
+      link: 'https://drive.google.com/file/d/17Zho_nh3ImaJBTDNo_48ZCjaILgD76XD/view?usp=drive_link'
     },
     {
       title: 'Advanced PHP & MYSQL Training',
@@ -19,7 +20,8 @@ const CertificationsSection = () => {
       icon: '🐘',
       color: 'from-purple-400 to-indigo-500',
       skills: ['PHP', 'MySQL', 'Web Development', 'Database Design'],
-      status: 'Completed'
+      status: 'Completed',
+      link: 'https://drive.google.com/file/d/1q04xZ4ZbQPeIa1GXWF3MJwGGKU-rUZ2D/view?usp=drive_link'
     },
     {
       title: 'Database and SQL',
@@ -28,7 +30,8 @@ const CertificationsSection = () => {
       icon: '🗄️',
       color: 'from-blue-400 to-cyan-500',
       skills: ['SQL', 'Database Design', 'Query Optimization', 'RDBMS'],
-      status: 'Completed'
+      status: 'Completed',
+      link: 'https://drive.google.com/file/d/1w_S4jAwvbbj2MzC0erXzjVw96p3gQHaD/view?usp=drive_link'
     },
     {
       title: 'Data Structure & Algorithm',
@@ -37,7 +40,8 @@ const CertificationsSection = () => {
       icon: '🧮',
       color: 'from-green-400 to-emerald-500',
       skills: ['Data Structures', 'Algorithms', 'Problem Solving', 'Optimization'],
-      status: 'Completed'
+      status: 'Completed',
+      link: 'https://drive.google.com/file/d/1Rt1f_YbpA-YgWHideJjXbLORBS8swZoM/view?usp=drive_link'
     },
     {
       title: 'Tailwind CSS Bootcamp',
@@ -46,7 +50,8 @@ const CertificationsSection = () => {
       icon: '🎨',
       color: 'from-cyan-400 to-blue-500',
       skills: ['Tailwind CSS', 'Responsive Design', 'UI Development', 'CSS Framework'],
-      status: 'Completed'
+      status: 'Completed',
+      link: '#' // Replace with actual link if available
     }
   ];
 
@@ -77,15 +82,11 @@ const CertificationsSection = () => {
               className="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
               style={{ animationDelay: `${index * 200}ms` }}
             >
-              {/* Animated background gradient */}
               <div className={`absolute inset-0 bg-gradient-to-r ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-              
-              {/* Floating animation elements */}
               <div className="absolute -top-3 -right-3 w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl group-hover:animate-pulse"></div>
               <div className="absolute -bottom-3 -left-3 w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full blur-xl group-hover:animate-bounce"></div>
 
               <div className="relative">
-                {/* Header */}
                 <div className="flex items-start justify-between mb-3 lg:mb-4">
                   <div className="flex items-center gap-2 lg:gap-3">
                     <div className={`w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r ${cert.color} rounded-lg lg:rounded-xl flex items-center justify-center text-base lg:text-lg shadow-lg group-hover:scale-110 transition-transform duration-300`}>
@@ -100,20 +101,17 @@ const CertificationsSection = () => {
                       </p>
                     </div>
                   </div>
-                  
-                  {/* Status Badge */}
+
                   <div className="flex items-center gap-1 px-2 py-0.5 lg:px-2 lg:py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-medium">
                     <CheckCircle size={12} />
                     {cert.status}
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-600 dark:text-gray-400 mb-3 lg:mb-4 leading-relaxed text-xs lg:text-sm">
                   {cert.description}
                 </p>
 
-                {/* Skills Tags */}
                 <div className="flex flex-wrap gap-1 mb-3 lg:mb-4">
                   {cert.skills.map((skill, skillIndex) => (
                     <span
@@ -126,20 +124,23 @@ const CertificationsSection = () => {
                   ))}
                 </div>
 
-                {/* Action Button */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                     <Calendar size={12} />
                     <span>Certified</span>
                   </div>
-                  
-                  <button className="flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse">
+
+                  <a
+                    href={cert.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse"
+                  >
                     <ExternalLink size={12} />
                     View Certificate
-                  </button>
+                  </a>
                 </div>
 
-                {/* Decorative elements */}
                 <div className="absolute top-3 right-3 w-1 h-1 lg:w-1.5 lg:h-1.5 bg-blue-400 rounded-full animate-ping opacity-75"></div>
                 <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
               </div>
