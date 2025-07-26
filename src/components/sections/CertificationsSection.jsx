@@ -51,7 +51,7 @@ const CertificationsSection = () => {
       color: 'from-cyan-400 to-blue-500',
       skills: ['Tailwind CSS', 'Responsive Design', 'UI Development', 'CSS Framework'],
       status: 'Completed',
-      link: '#' // Replace with actual link if available
+      link: 'https://drive.google.com/file/d/1yatzVW2tJIhhbzpdqSyaaUxkeHsRROH9/view?usp=sharing'
     }
   ];
 
