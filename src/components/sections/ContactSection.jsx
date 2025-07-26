@@ -66,7 +66,7 @@ const ContactSection = () => {
     {
       icon: <Phone className="w-4 h-4 lg:w-5 lg:h-5" />,
       label: 'Phone',
-      value: '+91 8010502405',
+      value: '+91 8010545025',
       color: 'from-green-500 to-emerald-500',
       bgColor: 'bg-green-50 dark:bg-green-900/20'
     },
