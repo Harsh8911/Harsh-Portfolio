@@ -74,7 +74,7 @@ const HomeSection = () => {
             {/* CTA Button */}
             <div className="flex justify-center lg:justify-start">
               <a
-                href="https://drive.google.com/file/d/1qd5i3VriDz3HyW8UpmGr6fKqAVD0PNTj/view"
+                href="https://docs.google.com/document/d/1llEQD_Z_zbrC4adIksTaBpPIReEyJpAVgBrsEuwGkVM/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group"
