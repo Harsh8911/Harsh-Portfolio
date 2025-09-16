@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         'playfair': ['"Playfair Display"', 'serif'],
-        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        'sans': ['"Times New Roman"', 'Times', 'serif'],
       },
       screens: {
         'xs': '475px',
