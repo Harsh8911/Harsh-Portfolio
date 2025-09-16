@@ -1,7 +1,10 @@
 import React from 'react';
 import { Award, ExternalLink, Calendar, CheckCircle } from 'lucide-react';
+import CertificateViewer from '../CertificateViewer';
 
 const CertificationsSection = () => {
+  const [selectedCertificate, setSelectedCertificate] = React.useState(null);
+
   const certifications = [
     {
       title: 'Git Training',
@@ -131,9 +134,11 @@ const CertificationsSection = () => {
                   </div>
 
                   <a
-                    href={`/certificate-viewer?url=${encodeURIComponent(cert.link)}&title=${encodeURIComponent(cert.title)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedCertificate({ url: cert.link, title: cert.title });
+                    }}
                     className="flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse"
                   >
                     <ExternalLink size={12} />
@@ -163,6 +168,15 @@ const CertificationsSection = () => {
             <div className="text-gray-600 dark:text-gray-400 text-xs lg:text-sm">Skills Acquired</div>
           </div>
         </div>
+
+        {/* Certificate Viewer Modal */}
+        {selectedCertificate && (
+          <CertificateViewer
+            certificateUrl={selectedCertificate.url}
+            certificateTitle={selectedCertificate.title}
+            onClose={() => setSelectedCertificate(null)}
+          />
+        )}
       </div>
     </div>
   );
