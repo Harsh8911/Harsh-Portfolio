@@ -53,22 +53,7 @@ const HomeSection = () => {
               <span>Nashik, Maharashtra, India</span>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-2 lg:gap-4 max-w-md mx-auto lg:mx-0">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="text-center p-2 lg:p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover:scale-105 transition-all duration-300"
-                >
-                  <div className="text-base sm:text-lg lg:text-xl font-bold text-blue-600 dark:text-blue-400 mb-1 font-playfair">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-gray-600 dark:text-gray-400">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
+           
 
             {/* CTA Button */}
             <div className="flex justify-center lg:justify-start">
