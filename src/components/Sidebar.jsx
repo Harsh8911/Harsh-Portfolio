@@ -24,7 +24,6 @@ const Sidebar = ({ activeSection, setActiveSection, isOpen, setIsOpen }) => {
     { id: 'projects', label: 'Projects', icon: FolderOpen },
     { id: 'certifications', label: 'Certifications', icon: Award },
     { id: 'achievements', label: 'Achievements', icon: GraduationCap },
-    { id: 'community', label: 'Community', icon: Users },
     { id: 'contact', label: 'Contact', icon: Mail },
   ];
 

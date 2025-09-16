@@ -224,7 +224,7 @@ const ProjectsSection = () => {
             </div>
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative max-w-5xl mx-auto">
             {/* Slider Container */}
             <div className="relative overflow-hidden rounded-2xl">
               <div 
@@ -233,10 +233,10 @@ const ProjectsSection = () => {
               >
                 {projects.map((project, index) => (
                   <div key={project.name} className="w-full flex-shrink-0">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl border border-gray-200/50 dark:border-gray-700/50 mx-2">
-                      <div className="flex flex-col lg:flex-row">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl border border-gray-200/50 dark:border-gray-700/50 mx-1 lg:mx-2">
+                      <div className="flex flex-col md:flex-row">
                         {/* Image Section */}
-                        <div className="lg:w-1/2 relative group">
+                        <div className="md:w-2/5 relative group">
                           {/* Featured Badge */}
                           {project.featured && (
                             <div className="absolute top-4 left-4 z-10 flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-full text-sm font-bold shadow-lg animate-pulse">
@@ -245,7 +245,7 @@ const ProjectsSection = () => {
                             </div>
                           )}
                           
-                          <div className="relative h-64 lg:h-80 overflow-hidden">
+                          <div className="relative h-48 md:h-64 lg:h-72 overflow-hidden">
                             <img 
                               src={project.image} 
                               alt={project.name}
@@ -259,7 +259,7 @@ const ProjectsSection = () => {
                         </div>
 
                         {/* Content Section */}
-                        <div className="lg:w-1/2 p-6 lg:p-8 flex flex-col justify-between">
+                        <div className="md:w-3/5 p-4 lg:p-6 flex flex-col justify-between">
                           <div>
                             <div className="flex items-center justify-between mb-4">
                               <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full font-medium">
@@ -272,20 +272,20 @@ const ProjectsSection = () => {
                               </div>
                             </div>
 
-                            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white font-playfair mb-4">
+                            <h3 className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-white font-playfair mb-3">
                               {project.name}
                             </h3>
 
-                            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-sm lg:text-base">
+                            <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed text-sm">
                               {project.description}
                             </p>
 
                             {/* Tech Stack */}
-                            <div className="flex flex-wrap gap-2 mb-6">
+                            <div className="flex flex-wrap gap-2 mb-4">
                               {project.techStack.map((tech, techIndex) => (
                                 <span
                                   key={techIndex}
-                                  className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors font-medium"
+                                  className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-700 dark:text-gray-300 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors font-medium"
                                 >
                                   {tech}
                                 </span>
@@ -294,23 +294,23 @@ const ProjectsSection = () => {
                           </div>
 
                           {/* Action Buttons */}
-                          <div className="flex gap-4">
+                          <div className="flex gap-3">
                             <a
                               href={project.demoUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 font-medium shadow-lg"
+                              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 font-medium shadow-lg text-sm"
                             >
-                              <ExternalLink size={18} />
+                              <ExternalLink size={16} />
                               Live Demo
                             </a>
                             <a
                               href={project.sourceUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 font-medium"
+                              className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 font-medium text-sm"
                             >
-                              <Github size={18} />
+                              <Github size={16} />
                               Source Code
                             </a>
                           </div>

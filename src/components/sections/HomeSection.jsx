@@ -12,7 +12,6 @@ import profileImage from '../../assets/harshgawali.jpg';
 
 const HomeSection = () => {
   const stats = [
-    { label: 'Years Experience', value: '1+', icon: Calendar },
     { label: 'Projects Completed', value: '10+', icon: Briefcase },
     { label: 'Technologies', value: '5+', icon: Briefcase },
   ];
@@ -55,7 +54,7 @@ const HomeSection = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-2 lg:gap-4 max-w-md mx-auto lg:mx-0">
+            <div className="grid grid-cols-2 gap-2 lg:gap-4 max-w-md mx-auto lg:mx-0">
               {stats.map((stat, index) => (
                 <div
                   key={index}

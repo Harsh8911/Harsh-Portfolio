@@ -11,7 +11,7 @@ const CertificationsSection = () => {
       color: 'from-orange-400 to-red-500',
       skills: ['Git', 'Version Control', 'Collaboration', 'Branching'],
       status: 'Completed',
-      link: 'https://drive.google.com/file/d/17Zho_nh3ImaJBTDNo_48ZCjaILgD76XD/view?usp=drive_link'
+      link: 'https://drive.google.com/file/d/11RF3EzkXunwqQBr0yfNWiH00R3S5DUs5/view?usp=sharing'
     },
     {
       title: 'Advanced PHP & MYSQL Training',
@@ -21,7 +21,7 @@ const CertificationsSection = () => {
       color: 'from-purple-400 to-indigo-500',
       skills: ['PHP', 'MySQL', 'Web Development', 'Database Design'],
       status: 'Completed',
-      link: 'https://drive.google.com/file/d/1q04xZ4ZbQPeIa1GXWF3MJwGGKU-rUZ2D/view?usp=drive_link'
+      link: 'https://drive.google.com/file/d/1izLiX10jYqFT0gWT2dJJxZgfRk-RlwFx/view?usp=sharing'
     },
     {
       title: 'Database and SQL',
@@ -31,7 +31,7 @@ const CertificationsSection = () => {
       color: 'from-blue-400 to-cyan-500',
       skills: ['SQL', 'Database Design', 'Query Optimization', 'RDBMS'],
       status: 'Completed',
-      link: 'https://drive.google.com/file/d/1w_S4jAwvbbj2MzC0erXzjVw96p3gQHaD/view?usp=drive_link'
+      link: 'https://drive.google.com/file/d/1gFDknqx6Xg1LrfinQQaEW1bdjPg2wbVw/view?usp=sharing'
     },
     {
       title: 'Data Structure & Algorithm',
@@ -41,7 +41,7 @@ const CertificationsSection = () => {
       color: 'from-green-400 to-emerald-500',
       skills: ['Data Structures', 'Algorithms', 'Problem Solving', 'Optimization'],
       status: 'Completed',
-      link: 'https://drive.google.com/file/d/1Rt1f_YbpA-YgWHideJjXbLORBS8swZoM/view?usp=drive_link'
+      link: 'https://drive.google.com/file/d/1SrHUbo-9Dx9n_kdhgsdDAdZJbp5bvslZ/view?usp=sharing'
     },
     {
       title: 'Tailwind CSS Bootcamp',
@@ -51,7 +51,7 @@ const CertificationsSection = () => {
       color: 'from-cyan-400 to-blue-500',
       skills: ['Tailwind CSS', 'Responsive Design', 'UI Development', 'CSS Framework'],
       status: 'Completed',
-      link: 'https://drive.google.com/file/d/1yatzVW2tJIhhbzpdqSyaaUxkeHsRROH9/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/18TpGN78o12wASDu6tdceqxZauVo4RvuV/view?usp=sharing'
     }
   ];
 
@@ -131,7 +131,7 @@ const CertificationsSection = () => {
                   </div>
 
                   <a
-                    href={cert.link}
+                    href={`/certificate-viewer?url=${encodeURIComponent(cert.link)}&title=${encodeURIComponent(cert.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse"

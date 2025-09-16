@@ -6,21 +6,6 @@ const SkillsSection = () => {
 
   const frontendSkills = [
     {
-      name: "HTML5",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-      color: "from-orange-400 to-red-500",
-    },
-    {
-      name: "CSS3",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
-      color: "from-blue-400 to-blue-600",
-    },
-    {
-      name: "JavaScript",
-      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-      color: "from-yellow-400 to-orange-500",
-    },
-    {
       name: "React",
       icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
       color: "from-cyan-400 to-blue-500",
@@ -29,6 +14,21 @@ const SkillsSection = () => {
       name: "Tailwind CSS",
       icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
       color: "from-cyan-400 to-teal-500",
+    },
+    {
+      name: "JavaScript",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+      color: "from-yellow-400 to-orange-500",
+    },
+    {
+      name: "HTML5",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+      color: "from-orange-400 to-red-500",
+    },
+    {
+      name: "CSS3",
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+      color: "from-blue-400 to-blue-600",
     },
     {
       name: "Bootstrap",

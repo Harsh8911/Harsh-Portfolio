@@ -5,7 +5,6 @@ import SkillsSection from './sections/SkillsSection';
 import ProjectsSection from './sections/ProjectsSection';
 import CertificationsSection from './sections/CertificationsSection';
 import AchievementsSection from './sections/AchievementsSection';
-import CommunitySection from './sections/CommunitySection';
 import ContactSection from './sections/ContactSection';
 
 const MainContent = ({ activeSection, setIsSidebarOpen }) => {
@@ -23,8 +22,6 @@ const MainContent = ({ activeSection, setIsSidebarOpen }) => {
         return <CertificationsSection />;
       case 'achievements':
         return <AchievementsSection />;
-      case 'community':
-        return <CommunitySection />;
       case 'contact':
         return <ContactSection />;
       default:
