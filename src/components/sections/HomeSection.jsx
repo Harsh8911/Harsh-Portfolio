@@ -11,10 +11,10 @@ import {
 import profileImage from '../../assets/harshgawali.jpg';
 
 const HomeSection = () => {
-  const stats = [
+  /*const stats = [
     { label: 'Projects Completed', value: '10+', icon: Briefcase },
     { label: 'Technologies', value: '5+', icon: Briefcase },
-  ];
+  ];*/
 
   return (
     <div className="min-h-screen flex items-center justify-center p-3">
