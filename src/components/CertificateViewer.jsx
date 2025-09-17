@@ -81,8 +81,8 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="overflow-hidden" style={{ height: 'calc(95vh - 80px)' }}>
+        {/* Content - Added scroll bar with overflow-y-auto */}
+        <div className="overflow-y-auto" style={{ height: 'calc(95vh - 80px)' }}>
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-full space-y-8 p-6">
               {/* Running Man Animation */}
@@ -189,15 +189,7 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
               </div>
             </div>
           ) : (
-            <div className="h-full">
-              {/* Success Animation */}
-              <div className="text-center py-4 bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-800">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium animate-bounce">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  Certificate Loaded Successfully!
-                </div>
-              </div>
-
+            <div className="h-full relative">
               {/* Google Drive Embedded Certificate */}
               <div className="h-full bg-gray-100 dark:bg-gray-800">
                 <iframe
