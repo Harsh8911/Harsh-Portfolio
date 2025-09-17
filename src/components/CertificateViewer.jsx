@@ -5,10 +5,15 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState('');
   const [progress, setProgress] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if (certificateUrl) {
-      // Convert Google Drive view link to direct image link
+      setIsLoading(true);
+      setImageError(false);
+      setProgress(0);
+      
+      // Convert Google Drive view link to direct image link for PNG files
       const fileId = certificateUrl.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
       if (fileId) {
         setImageUrl(`https://drive.google.com/uc?export=view&id=${fileId}`);
@@ -16,17 +21,16 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
         setImageUrl(certificateUrl);
       }
 
-      // Simulate loading progress
+      // Simulate loading progress with running man animation
       const interval = setInterval(() => {
         setProgress(prev => {
           if (prev >= 100) {
             clearInterval(interval);
-            setIsLoading(false);
             return 100;
           }
-          return prev + Math.random() * 15;
+          return prev + Math.random() * 12 + 3; // Faster progress
         });
-      }, 200);
+      }, 150);
 
       return () => clearInterval(interval);
     }
@@ -35,31 +39,41 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
   const handleDownload = () => {
     const link = document.createElement('a');
     link.href = imageUrl;
-    link.download = `${certificateTitle || 'certificate'}.jpg`;
+    link.download = `${certificateTitle || 'certificate'}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setImageError(false);
+  };
+
+  const handleImageError = () => {
+    setIsLoading(false);
+    setImageError(true);
   };
 
   if (!certificateUrl) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="relative max-w-4xl w-full max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative max-w-5xl w-full max-h-[95vh] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white font-playfair">
             {certificateTitle || 'Certificate'}
           </h2>
           <div className="flex items-center gap-2">
-            {!isLoading && (
+            {!isLoading && !imageError && (
               <>
                 <button
                   onClick={handleDownload}
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 text-sm"
                 >
                   <Download size={16} />
-                  Download
+                  Download PNG
                 </button>
                 <a
                   href={certificateUrl}
@@ -82,78 +96,132 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-auto max-h-[calc(90vh-80px)]">
+        <div className="p-6 overflow-auto max-h-[calc(95vh-80px)]">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-64 space-y-6">
+            <div className="flex flex-col items-center justify-center h-96 space-y-8">
               {/* Running Man Animation */}
-              <div className="relative w-80 h-20 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-                {/* Track */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30"></div>
+              <div className="relative w-96 h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full overflow-hidden border-2 border-blue-200 dark:border-blue-800">
+                {/* Track with finish line */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-white to-purple-50 dark:from-blue-900/20 dark:via-gray-800 dark:to-purple-900/20"></div>
                 
                 {/* Progress Fill */}
                 <div 
-                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300 ease-out rounded-full"
+                  className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-600 transition-all duration-300 ease-out rounded-full opacity-30"
                   style={{ width: `${progress}%` }}
                 ></div>
                 
                 {/* Running Man */}
                 <div 
-                  className="absolute top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-out"
-                  style={{ left: `${Math.min(progress, 95)}%` }}
+                  className="absolute top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-out z-10"
+                  style={{ left: `${Math.min(progress * 0.85, 85)}%` }}
                 >
                   <div className="relative">
-                    {/* Man figure */}
-                    <div className="w-8 h-8 text-white animate-bounce">
-                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                    {/* Running Man SVG */}
+                    <div className="w-12 h-12 text-blue-600 dark:text-blue-400">
+                      <svg viewBox="0 0 100 100" fill="currentColor" className="w-full h-full animate-bounce">
                         {/* Head */}
-                        <circle cx="12" cy="6" r="2"/>
+                        <circle cx="50" cy="20" r="8" className="animate-pulse"/>
+                        
                         {/* Body */}
-                        <path d="M12 8v6"/>
-                        {/* Arms */}
-                        <path d="M9 11l3-1 3 1" className="animate-pulse"/>
-                        {/* Legs */}
-                        <path d="M10 14l2-1 2 1v4l-2-1-2 1z" className="animate-pulse"/>
-                        {/* Running effect */}
-                        <path d="M8 16l2-1M16 16l-2-1" className="animate-ping"/>
+                        <rect x="46" y="28" width="8" height="25" rx="2" className="animate-pulse"/>
+                        
+                        {/* Arms - animated for running motion */}
+                        <g className="animate-pulse">
+                          <rect x="38" y="32" width="12" height="4" rx="2" transform="rotate(-20 44 34)"/>
+                          <rect x="50" y="32" width="12" height="4" rx="2" transform="rotate(20 56 34)"/>
+                        </g>
+                        
+                        {/* Legs - animated for running motion */}
+                        <g className="animate-bounce">
+                          <rect x="42" y="53" width="6" height="18" rx="3" transform="rotate(15 45 62)"/>
+                          <rect x="52" y="53" width="6" height="18" rx="3" transform="rotate(-15 55 62)"/>
+                        </g>
+                        
+                        {/* Running shoes */}
+                        <ellipse cx="40" cy="75" rx="6" ry="3" className="animate-pulse"/>
+                        <ellipse cx="60" cy="75" rx="6" ry="3" className="animate-pulse"/>
                       </svg>
                     </div>
                     
-                    {/* Speed lines */}
-                    <div className="absolute -left-6 top-1/2 transform -translate-y-1/2">
+                    {/* Speed lines behind the runner */}
+                    <div className="absolute -left-8 top-1/2 transform -translate-y-1/2">
                       <div className="flex space-x-1">
-                        <div className="w-1 h-0.5 bg-white/60 animate-pulse"></div>
-                        <div className="w-1 h-0.5 bg-white/40 animate-pulse delay-100"></div>
-                        <div className="w-1 h-0.5 bg-white/20 animate-pulse delay-200"></div>
+                        <div className="w-2 h-0.5 bg-blue-400/60 animate-pulse"></div>
+                        <div className="w-1.5 h-0.5 bg-blue-400/40 animate-pulse delay-75"></div>
+                        <div className="w-1 h-0.5 bg-blue-400/20 animate-pulse delay-150"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Dust clouds */}
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                      <div className="flex space-x-1">
+                        <div className="w-1 h-1 bg-gray-300 dark:bg-gray-600 rounded-full animate-ping"></div>
+                        <div className="w-0.5 h-0.5 bg-gray-300 dark:bg-gray-600 rounded-full animate-ping delay-100"></div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Finish Line */}
-                <div className="absolute right-2 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-400 via-red-500 to-yellow-400 animate-pulse"></div>
+                <div className="absolute right-4 top-0 bottom-0 w-2 bg-gradient-to-b from-red-500 via-white via-red-500 via-white to-red-500 animate-pulse border-l-2 border-r-2 border-red-600"></div>
+                
+                {/* Distance markers */}
+                <div className="absolute bottom-1 left-1/4 text-xs text-gray-500 dark:text-gray-400">25%</div>
+                <div className="absolute bottom-1 left-1/2 text-xs text-gray-500 dark:text-gray-400">50%</div>
+                <div className="absolute bottom-1 left-3/4 text-xs text-gray-500 dark:text-gray-400">75%</div>
               </div>
 
               {/* Loading Text */}
               <div className="text-center">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 font-playfair">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 font-playfair">
                   Loading Certificate...
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  {progress < 30 ? 'Preparing document...' : 
-                   progress < 60 ? 'Fetching certificate...' : 
-                   progress < 90 ? 'Almost there...' : 'Ready!'}
+                <p className="text-gray-600 dark:text-gray-400 text-base mb-2">
+                  {progress < 25 ? 'Starting the race...' : 
+                   progress < 50 ? 'Running to fetch your certificate...' : 
+                   progress < 75 ? 'Almost at the finish line...' : 
+                   progress < 95 ? 'Crossing the finish line...' : 'Certificate ready!'}
                 </p>
-                <div className="mt-2 text-2xl font-bold text-blue-600 dark:text-blue-400">
+                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">
                   {Math.round(progress)}%
+                </div>
+                
+                {/* Progress bar */}
+                <div className="w-64 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mx-auto">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300 ease-out rounded-full"
+                    style={{ width: `${progress}%` }}
+                  ></div>
                 </div>
               </div>
 
-              {/* Corporate elements */}
+              {/* Certificate info */}
               <div className="flex items-center space-x-4 text-gray-400 dark:text-gray-600">
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
-                <div className="text-xs font-medium">PROFESSIONAL CERTIFICATE</div>
+                <div className="text-sm font-medium">LOADING PNG CERTIFICATE</div>
                 <div className="w-2 h-2 bg-purple-500 rounded-full animate-ping delay-300"></div>
               </div>
+            </div>
+          ) : imageError ? (
+            <div className="text-center py-20">
+              <div className="text-red-500 mb-4">
+                <X size={48} className="mx-auto" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Failed to Load Certificate
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Unable to load the certificate image. Please check the link or try again later.
+              </p>
+              <a
+                href={certificateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
+              >
+                <ExternalLink size={16} />
+                Open Original Link
+              </a>
             </div>
           ) : (
             <div className="space-y-4">
@@ -161,7 +229,7 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
               <div className="text-center mb-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium animate-bounce">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  Certificate Loaded Successfully!
+                  PNG Certificate Loaded Successfully!
                 </div>
               </div>
 
@@ -170,9 +238,9 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
                 <img
                   src={imageUrl}
                   alt={certificateTitle}
-                  className="w-full h-auto rounded-xl shadow-lg transition-transform duration-500 hover:scale-105"
-                  onLoad={() => setIsLoading(false)}
-                  onError={() => setIsLoading(false)}
+                  className="w-full h-auto rounded-xl shadow-lg transition-transform duration-500 hover:scale-105 max-h-[70vh] object-contain mx-auto"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
               </div>
@@ -185,7 +253,7 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
                     <p className="text-sm text-gray-600 dark:text-gray-400">Software Engineer</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Verified Certificate</p>
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Verified PNG Certificate</p>
                     <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
                       <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
                       Authenticated

@@ -4,6 +4,7 @@ import CertificateViewer from '../CertificateViewer';
 
 const CertificationsSection = () => {
   const [selectedCertificate, setSelectedCertificate] = React.useState(null);
+  const [loadingCertificate, setLoadingCertificate] = React.useState(null);
 
   const certifications = [
     {
@@ -137,12 +138,25 @@ const CertificationsSection = () => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
+                      setLoadingCertificate(cert.title);
                       setSelectedCertificate({ url: cert.link, title: cert.title });
                     }}
-                    className="flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse"
+                    className={`flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse ${
+                      loadingCertificate === cert.title ? 'opacity-75 cursor-wait' : ''
+                    }`}
+                    disabled={loadingCertificate === cert.title}
                   >
-                    <ExternalLink size={12} />
-                    View Certificate
+                    {loadingCertificate === cert.title ? (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white"></div>
+                        Loading...
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink size={12} />
+                        View Certificate
+                      </>
+                    )}
                   </a>
                 </div>
 
@@ -174,7 +188,10 @@ const CertificationsSection = () => {
           <CertificateViewer
             certificateUrl={selectedCertificate.url}
             certificateTitle={selectedCertificate.title}
-            onClose={() => setSelectedCertificate(null)}
+            onClose={() => {
+              setSelectedCertificate(null);
+              setLoadingCertificate(null);
+            }}
           />
         )}
       </div>
