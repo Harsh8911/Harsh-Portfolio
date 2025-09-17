@@ -191,13 +191,17 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
           ) : (
             <div className="h-full relative">
               {/* Google Drive Embedded Certificate */}
-              <div className="h-full bg-gray-100 dark:bg-gray-800">
+              <div className="h-full bg-gray-100 dark:bg-gray-800 overflow-auto">
                 <iframe
                   src={embedUrl}
-                  className="w-full h-full border-0"
+                  className="w-full border-0"
                   title={certificateTitle}
                   allow="autoplay"
-                  style={{ minHeight: 'calc(100vh - 200px)' }}
+                  style={{ 
+                    minHeight: 'calc(100vh - 200px)',
+                    height: 'calc(100vh - 200px)'
+                  }}
+                  scrolling="yes"
                   onLoad={() => {
                     // Additional loading complete handler if needed
                   }}
