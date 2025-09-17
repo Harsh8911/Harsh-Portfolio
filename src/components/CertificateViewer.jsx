@@ -3,22 +3,20 @@ import { X, Download, ExternalLink } from 'lucide-react';
 
 const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [imageUrl, setImageUrl] = useState('');
   const [progress, setProgress] = useState(0);
-  const [imageError, setImageError] = useState(false);
+  const [embedUrl, setEmbedUrl] = useState('');
 
   useEffect(() => {
     if (certificateUrl) {
       setIsLoading(true);
-      setImageError(false);
       setProgress(0);
       
-      // Convert Google Drive view link to direct image link for PNG files
+      // Convert Google Drive view link to embed link
       const fileId = certificateUrl.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
       if (fileId) {
-        setImageUrl(`https://drive.google.com/uc?export=view&id=${fileId}`);
+        setEmbedUrl(`https://drive.google.com/file/d/${fileId}/preview`);
       } else {
-        setImageUrl(certificateUrl);
+        setEmbedUrl(certificateUrl);
       }
 
       // Simulate loading progress with running man animation
@@ -26,9 +24,11 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
         setProgress(prev => {
           if (prev >= 100) {
             clearInterval(interval);
+            // Add a small delay before showing the certificate
+            setTimeout(() => setIsLoading(false), 500);
             return 100;
           }
-          return prev + Math.random() * 12 + 3; // Faster progress
+          return prev + Math.random() * 12 + 3;
         });
       }, 150);
 
@@ -37,43 +37,29 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
   }, [certificateUrl]);
 
   const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `${certificateTitle || 'certificate'}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleImageLoad = () => {
-    setIsLoading(false);
-    setImageError(false);
-  };
-
-  const handleImageError = () => {
-    setIsLoading(false);
-    setImageError(true);
+    // Open the original Google Drive link for download
+    window.open(certificateUrl, '_blank');
   };
 
   if (!certificateUrl) return null;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="relative max-w-5xl w-full max-h-[95vh] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative max-w-6xl w-full max-h-[95vh] bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white font-playfair">
             {certificateTitle || 'Certificate'}
           </h2>
           <div className="flex items-center gap-2">
-            {!isLoading && !imageError && (
+            {!isLoading && (
               <>
                 <button
                   onClick={handleDownload}
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 text-sm"
                 >
                   <Download size={16} />
-                  Download PNG
+                  Download
                 </button>
                 <a
                   href={certificateUrl}
@@ -82,7 +68,7 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
                   className="flex items-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300 text-sm"
                 >
                   <ExternalLink size={16} />
-                  Original
+                  Open in Drive
                 </a>
               </>
             )}
@@ -96,9 +82,9 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-auto max-h-[calc(95vh-80px)]">
+        <div className="overflow-hidden" style={{ height: 'calc(95vh - 80px)' }}>
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-96 space-y-8">
+            <div className="flex flex-col items-center justify-center h-full space-y-8 p-6">
               {/* Running Man Animation */}
               <div className="relative w-96 h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full overflow-hidden border-2 border-blue-200 dark:border-blue-800">
                 {/* Track with finish line */}
@@ -198,66 +184,48 @@ const CertificateViewer = ({ certificateUrl, certificateTitle, onClose }) => {
               {/* Certificate info */}
               <div className="flex items-center space-x-4 text-gray-400 dark:text-gray-600">
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
-                <div className="text-sm font-medium">LOADING PNG CERTIFICATE</div>
+                <div className="text-sm font-medium">LOADING CERTIFICATE FROM DRIVE</div>
                 <div className="w-2 h-2 bg-purple-500 rounded-full animate-ping delay-300"></div>
               </div>
             </div>
-          ) : imageError ? (
-            <div className="text-center py-20">
-              <div className="text-red-500 mb-4">
-                <X size={48} className="mx-auto" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Failed to Load Certificate
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Unable to load the certificate image. Please check the link or try again later.
-              </p>
-              <a
-                href={certificateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
-              >
-                <ExternalLink size={16} />
-                Open Original Link
-              </a>
-            </div>
           ) : (
-            <div className="space-y-4">
+            <div className="h-full">
               {/* Success Animation */}
-              <div className="text-center mb-6">
+              <div className="text-center py-4 bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-800">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-medium animate-bounce">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  PNG Certificate Loaded Successfully!
+                  Certificate Loaded Successfully!
                 </div>
               </div>
 
-              {/* Certificate Image */}
-              <div className="relative group">
-                <img
-                  src={imageUrl}
-                  alt={certificateTitle}
-                  className="w-full h-auto rounded-xl shadow-lg transition-transform duration-500 hover:scale-105 max-h-[70vh] object-contain mx-auto"
-                  onLoad={handleImageLoad}
-                  onError={handleImageError}
+              {/* Google Drive Embedded Certificate */}
+              <div className="h-full bg-gray-100 dark:bg-gray-800">
+                <iframe
+                  src={embedUrl}
+                  className="w-full h-full border-0"
+                  title={certificateTitle}
+                  allow="autoplay"
+                  style={{ minHeight: 'calc(100vh - 200px)' }}
+                  onLoad={() => {
+                    // Additional loading complete handler if needed
+                  }}
+                  onError={() => {
+                    console.error('Failed to load certificate iframe');
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
               </div>
 
-              {/* Certificate Info */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-bold text-gray-900 dark:text-white">Harsh Gawali</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Software Engineer</p>
+              {/* Certificate Info Footer */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-3 border-t border-blue-200 dark:border-blue-800">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                      {certificateTitle} - Harsh Gawali
+                    </span>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Verified PNG Certificate</p>
-                    <div className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
-                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                      Authenticated
-                    </div>
+                  <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                    <span className="text-xs">✓ Verified Certificate</span>
                   </div>
                 </div>
               </div>
