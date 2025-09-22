@@ -30,8 +30,11 @@ const HomeSection = () => {
 
               <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 dark:text-white font-playfair leading-tight">
                 Hello, I'm <br></br>
-                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent animate-pulse">
+                <span className="bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-600 bg-clip-text text-transparent animate-pulse relative">
                   Harsh Gawali
+                  <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 bg-clip-text text-transparent opacity-0 hover:opacity-100 transition-opacity duration-500">
+                    Harsh Gawali
+                  </span>
                 </span>
               </h1>
 

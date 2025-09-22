@@ -188,6 +188,7 @@ const ContactSection = () => {
             <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white font-playfair">Send Me a Message</h3>
             
             <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-xl">
+            <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4 glass-3d rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 shadow-xl card-3d particle-zone">
               <div className="space-y-3 lg:space-y-4">
                 <div className="group">
                   <label className="block text-xs lg:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">

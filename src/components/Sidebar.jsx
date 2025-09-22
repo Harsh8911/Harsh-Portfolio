@@ -112,7 +112,7 @@ const Sidebar = ({ activeSection, setActiveSection, isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <div
         className={`
-        fixed lg:relative z-40 h-full w-52 lg:w-60 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 
+        fixed lg:relative z-40 h-full w-52 lg:w-60 glass-3d border-r border-gray-200/50 dark:border-gray-700/50 
         transform transition-all duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         shadow-2xl lg:shadow-none

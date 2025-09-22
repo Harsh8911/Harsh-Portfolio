@@ -105,7 +105,7 @@ const AchievementsSection = () => {
           {achievements.map((achievement, index) => (
             <div
               key={index}
-              className={`group relative ${achievement.bgColor} rounded-xl p-4 lg:p-5 border hover:shadow-xl transition-all duration-500 overflow-hidden`}
+              className={`group relative ${achievement.bgColor} rounded-xl p-4 lg:p-5 border hover:shadow-xl transition-all duration-500 overflow-hidden card-3d particle-zone`}
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${achievement.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
               <div className="relative">

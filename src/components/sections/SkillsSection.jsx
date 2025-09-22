@@ -195,7 +195,7 @@ const SkillsSection = () => {
                 {category.skills.map((skill, skillIndex) => (
                   <div
                     key={skillIndex}
-                    className="group p-3 lg:p-4 text-center hover:transform hover:scale-105 transition-all duration-300 bg-white/70 dark:bg-gray-800/70 rounded-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl"
+                    className="group p-3 lg:p-4 text-center hover:transform hover:scale-105 transition-all duration-300 glass-3d rounded-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl card-3d particle-zone"
                     style={{ animationDelay: `${skillIndex * 100}ms` }}
                   >
                     <div className="relative">

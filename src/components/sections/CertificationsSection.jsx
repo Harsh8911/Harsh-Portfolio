@@ -83,7 +83,7 @@ const CertificationsSection = () => {
           {certifications.map((cert, index) => (
             <div
               key={index}
-              className="group relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden"
+              className="group relative glass-3d rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden card-3d particle-zone"
               style={{ animationDelay: `${index * 200}ms` }}
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>

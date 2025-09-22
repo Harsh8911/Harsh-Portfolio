@@ -108,7 +108,7 @@ const ProjectsSection = () => {
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="project-card group relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl transition-all duration-500"
+                className="project-card group relative glass-3d rounded-xl overflow-hidden shadow-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl transition-all duration-500 card-3d particle-zone"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 {/* Featured Badge */}

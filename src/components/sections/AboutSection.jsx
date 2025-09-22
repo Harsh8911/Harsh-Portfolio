@@ -89,19 +89,19 @@ const AboutSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
           {/* Left Column - Image and Text */}
-          <div className="space-y-5 lg:space-y-6">
+          <div className="space-y-5 lg:space-y-6 particle-zone">
             {/* Profile Image */}
-            <div className="relative group">
+            <div className="relative group perspective-container">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
               <img
                 src={profileImage}
                 alt="Profile"
-                className="relative w-full max-w-sm mx-auto h-56 sm:h-72 lg:h-80 rounded-2xl shadow-2xl object-cover transition-transform group-hover:scale-105 duration-500 border-4 border-white dark:border-gray-800"
+                className="relative w-full max-w-sm mx-auto h-56 sm:h-72 lg:h-80 rounded-2xl shadow-2xl object-cover transition-transform group-hover:scale-105 duration-500 border-4 border-white dark:border-gray-800 card-3d animate-float3d"
               />
             </div>
 
             {/* About Text */}
-            <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50">
+            <div className="glass-3d rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 card-3d">
               <div className="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700 dark:text-gray-300">
                 {showFull ? fullText : condensedText}
               </div>
