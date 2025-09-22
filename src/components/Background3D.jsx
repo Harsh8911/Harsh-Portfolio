@@ -110,11 +110,11 @@ const Background3D = () => {
         this.rotationX = 0;
         this.rotationY = 0;
         this.rotationZ = 0;
-        this.rotationSpeedX = (Math.random() - 0.5) * 0.02;
-        this.rotationSpeedY = (Math.random() - 0.5) * 0.02;
-        this.rotationSpeedZ = (Math.random() - 0.5) * 0.02;
+        this.rotationSpeedX = (Math.random() - 0.5) * 0.01;
+        this.rotationSpeedY = (Math.random() - 0.5) * 0.01;
+        this.rotationSpeedZ = (Math.random() - 0.5) * 0.01;
         this.size = Math.random() * 30 + 10;
-        this.vz = -0.5;
+        this.vz = -0.3;
         this.opacity = Math.random() * 0.3 + 0.1;
         this.type = Math.floor(Math.random() * 3); // 0: triangle, 1: square, 2: hexagon
         this.color = this.getRandomColor();
@@ -190,8 +190,8 @@ const Background3D = () => {
     }
 
     // Initialize particles and shapes
-    const particleCount = 150;
-    const shapeCount = 20;
+    const particleCount = 80;
+    const shapeCount = 15;
     
     for (let i = 0; i < particleCount; i++) {
       particlesRef.current.push(new Particle());
@@ -241,38 +241,6 @@ const Background3D = () => {
         particle.update();
         particle.draw(ctx);
       });
-
-      // Draw connecting lines between nearby particles
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const p1 = particlesRef.current[i];
-          const p2 = particlesRef.current[j];
-          
-          if (p1.constructor === Particle && p2.constructor === Particle) {
-            const dx = p1.x - p2.x;
-            const dy = p1.y - p2.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-              const opacity = (100 - distance) / 100 * 0.2;
-              ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
-              ctx.lineWidth = 1;
-              ctx.beginPath();
-              
-              const scale1 = 200 / p1.z;
-              const scale2 = 200 / p2.z;
-              const x1 = (p1.x - width / 2) * scale1 + width / 2;
-              const y1 = (p1.y - height / 2) * scale1 + height / 2;
-              const x2 = (p2.x - width / 2) * scale2 + width / 2;
-              const y2 = (p2.y - height / 2) * scale2 + height / 2;
-              
-              ctx.moveTo(x1, y1);
-              ctx.lineTo(x2, y2);
-              ctx.stroke();
-            }
-          }
-        }
-      }
 
       animationRef.current = requestAnimationFrame(animate);
     };
