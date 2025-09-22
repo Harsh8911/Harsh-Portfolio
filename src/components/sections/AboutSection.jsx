@@ -91,17 +91,16 @@ const AboutSection = () => {
           {/* Left Column - Image and Text */}
           <div className="space-y-5 lg:space-y-6 particle-zone">
             {/* Profile Image */}
-            <div className="relative group perspective-container">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+            <div className="relative">
               <img
                 src={profileImage}
                 alt="Profile"
-                className="relative w-full max-w-sm mx-auto h-56 sm:h-72 lg:h-80 rounded-2xl shadow-2xl object-cover transition-transform group-hover:scale-105 duration-500 border-4 border-white dark:border-gray-800 card-3d animate-float3d"
+                className="w-full max-w-sm mx-auto h-56 sm:h-72 lg:h-80 rounded-2xl shadow-2xl object-cover border-4 border-white dark:border-gray-800"
               />
             </div>
 
             {/* About Text */}
-            <div className="glass-3d rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 card-3d">
+            <div className="glass-3d rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50">
               <div className="text-xs sm:text-sm lg:text-base leading-relaxed text-gray-700 dark:text-gray-300">
                 {showFull ? fullText : condensedText}
               </div>
@@ -121,18 +120,18 @@ const AboutSection = () => {
                 {education.map((edu, index) => (
                   <div
                     key={index}
-                    className="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:scale-102 ml-10"
+                    className="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 ml-10"
                   >
                     {/* Timeline dot */}
                     <div className={`absolute -left-12 top-5 w-3 h-3 rounded-full border-3 ${
                       edu.status === 'current' 
-                        ? 'bg-green-500 border-green-200 animate-pulse' 
+                        ? 'bg-green-500 border-green-200' 
                         : 'bg-blue-500 border-blue-200'
                     }`}></div>
                     
                     {/* Status indicator */}
                     {edu.status === 'current' && (
-                      <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
+                      <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
                         Current
                       </div>
                     )}
