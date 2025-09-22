@@ -23,18 +23,15 @@ const HomeSection = () => {
           {/* Left Content */}
           <div className="space-y-4 lg:space-y-6 text-center lg:text-left">
             <div className="space-y-2 lg:space-y-3">
-              <div className="inline-flex items-center gap-2 px-2 py-1 lg:px-3 lg:py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400 text-xs font-medium animate-bounce">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="inline-flex items-center gap-2 px-2 py-1 lg:px-3 lg:py-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400 text-xs font-medium">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                 Available for work
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 dark:text-white font-playfair leading-tight">
                 Hello, I'm <br></br>
-                <span className="bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-600 bg-clip-text text-transparent animate-pulse relative">
+                <span className="bg-gradient-to-r from-emerald-400 via-cyan-500 to-blue-600 bg-clip-text text-transparent relative">
                   Harsh Gawali
-                  <span className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 bg-clip-text text-transparent opacity-0 hover:opacity-100 transition-opacity duration-500">
-                    Harsh Gawali
-                  </span>
                 </span>
               </h1>
 
@@ -64,10 +61,9 @@ const HomeSection = () => {
                 href="https://drive.google.com/file/d/1ESTsu5P-r-5d4_6lF20C_6Z33QhzAuZ5/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group"
               >
-                <button className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-xl text-xs lg:text-sm">
-                  <Download size={16} className="group-hover:animate-bounce" />
+                <button className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-medium transition-all duration-300 text-xs lg:text-sm">
+                  <Download size={16} />
                   Download Resume
                 </button>
               </a>
@@ -78,26 +74,26 @@ const HomeSection = () => {
           <div className="flex justify-center">
             <div className="relative">
               {/* Animated background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-spin-slow opacity-75 blur-xl"></div>
-              <div className="absolute inset-2 bg-gradient-to-r from-pink-400 via-blue-500 to-purple-500 rounded-full animate-spin-reverse opacity-50 blur-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full opacity-75 blur-xl animate-shape-rotate"></div>
+              <div className="absolute inset-2 bg-gradient-to-r from-pink-400 via-blue-500 to-purple-500 rounded-full opacity-50 blur-lg animate-shape-pulse"></div>
 
               {/* Profile image */}
               <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl">
                 <img
                   src={profileImage}
                   alt="Harsh Gawali"
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
               {/* Floating elements with tech icons */}
-              <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 w-8 h-8 lg:w-12 lg:h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold animate-bounce shadow-lg">
+              <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 w-8 h-8 lg:w-12 lg:h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-shape-float">
                 <Code size={16} className="lg:w-6 lg:h-6" />
               </div>
-              <div className="absolute -bottom-1 -left-1 lg:-bottom-2 lg:-left-2 w-7 h-7 lg:w-10 lg:h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold animate-pulse shadow-lg">
+              <div className="absolute -bottom-1 -left-1 lg:-bottom-2 lg:-left-2 w-7 h-7 lg:w-10 lg:h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-shape-pulse">
                 <Computer size={14} className="lg:w-5 lg:h-5" />
               </div>
-              <div className="absolute top-1/2 -left-3 lg:-left-4 w-6 h-6 lg:w-8 lg:h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold animate-ping shadow-lg">
+              <div className="absolute top-1/2 -left-3 lg:-left-4 w-6 h-6 lg:w-8 lg:h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-shape-rotate">
                 <Smile size={12} className="lg:w-4 lg:h-4" />
               </div>
             </div>
