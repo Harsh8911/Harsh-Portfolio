@@ -1,10 +1,12 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { Award, ExternalLink, Calendar, CheckCircle } from 'lucide-react';
 import CertificateViewer from '../CertificateViewer';
 
 const CertificationsSection = () => {
   const [selectedCertificate, setSelectedCertificate] = React.useState(null);
   const [loadingCertificate, setLoadingCertificate] = React.useState(null);
+  const [visibleCerts, setVisibleCerts] = useState([]);
 
   const certifications = [
     {
@@ -59,6 +61,19 @@ const CertificationsSection = () => {
     }
   ];
 
+  useEffect(() => {
+    // Animate certifications one by one
+    const timer = setTimeout(() => {
+      certifications.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleCerts(prev => [...prev, index]);
+        }, index * 200); // 200ms delay between each certification
+      });
+    }, 300); // Start after 300ms
+
+    return () => clearTimeout(timer);
+  }, [certifications.length]);
+
   return (
     <div className="min-h-full p-3 lg:p-5">
       <div className="max-w-7xl mx-auto">
@@ -83,17 +98,26 @@ const CertificationsSection = () => {
           {certifications.map((cert, index) => (
             <div
               key={index}
-              className="group relative glass-3d rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden card-3d particle-zone"
-              style={{ animationDelay: `${index * 200}ms` }}
+              className={`group relative glass-3d rounded-lg lg:rounded-xl p-3 lg:p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-500 hover:scale-105 overflow-hidden card-3d particle-zone ${
+                visibleCerts.includes(index) 
+                  ? 'animate-certification-slide opacity-100' 
+                  : 'opacity-0 transform translateY-40'
+              }`}
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-              <div className="absolute -top-3 -right-3 w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl group-hover:animate-pulse"></div>
-              <div className="absolute -bottom-3 -left-3 w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full blur-xl group-hover:animate-bounce"></div>
+              <div className={`absolute -top-3 -right-3 w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-xl group-hover:animate-pulse transition-all duration-700 ${
+                visibleCerts.includes(index) ? 'animate-shape-pulse' : ''
+              }`}></div>
+              <div className={`absolute -bottom-3 -left-3 w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-green-400/20 to-blue-400/20 rounded-full blur-xl group-hover:animate-bounce transition-all duration-700 ${
+                visibleCerts.includes(index) ? 'animate-shape-float' : ''
+              }`}></div>
 
               <div className="relative">
                 <div className="flex items-start justify-between mb-3 lg:mb-4">
                   <div className="flex items-center gap-2 lg:gap-3">
-                    <div className={`w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r ${cert.color} rounded-lg lg:rounded-xl flex items-center justify-center text-base lg:text-lg shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r ${cert.color} rounded-lg lg:rounded-xl flex items-center justify-center text-base lg:text-lg shadow-lg group-hover:scale-110 transition-transform duration-300 ${
+                      visibleCerts.includes(index) ? 'animate-bounce' : ''
+                    }`}>
                       {cert.icon}
                     </div>
                     <div>
@@ -120,8 +144,10 @@ const CertificationsSection = () => {
                   {cert.skills.map((skill, skillIndex) => (
                     <span
                       key={skillIndex}
-                      className="px-1.5 py-0.5 lg:px-2 lg:py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-default"
-                      style={{ animationDelay: `${skillIndex * 100}ms` }}
+                      className={`px-1.5 py-0.5 lg:px-2 lg:py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-300 cursor-default ${
+                        visibleCerts.includes(index) ? 'animate-fade-in-up' : 'opacity-0'
+                      }`}
+                      style={{ animationDelay: `${(index * 200) + (skillIndex * 100)}ms` }}
                     >
                       {skill}
                     </span>
@@ -134,16 +160,15 @@ const CertificationsSection = () => {
                     <span>Certified</span>
                   </div>
 
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
+                  <button
+                    onClick={() => {
                       setLoadingCertificate(cert.title);
                       setSelectedCertificate({ url: cert.link, title: cert.title });
                     }}
-                    className={`flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium group-hover:animate-pulse ${
+                    className={`flex items-center gap-1 px-2 py-1 lg:px-3 lg:py-1.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium ${
                       loadingCertificate === cert.title ? 'opacity-75 cursor-wait' : ''
-                    }`}
+                    } ${visibleCerts.includes(index) ? 'animate-fade-in-up' : 'opacity-0'}`}
+                    style={{ animationDelay: `${(index * 200) + 400}ms` }}
                     disabled={loadingCertificate === cert.title}
                   >
                     {loadingCertificate === cert.title ? (
@@ -157,11 +182,15 @@ const CertificationsSection = () => {
                         View Certificate
                       </>
                     )}
-                  </a>
+                  </button>
                 </div>
 
-                <div className="absolute top-3 right-3 w-1 h-1 lg:w-1.5 lg:h-1.5 bg-blue-400 rounded-full animate-ping opacity-75"></div>
-                <div className="absolute bottom-3 left-3 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse"></div>
+                <div className={`absolute top-3 right-3 w-1 h-1 lg:w-1.5 lg:h-1.5 bg-blue-400 rounded-full animate-ping opacity-75 transition-all duration-500 ${
+                  visibleCerts.includes(index) ? 'opacity-75' : 'opacity-0'
+                }`}></div>
+                <div className={`absolute bottom-3 left-3 w-0.5 h-0.5 bg-purple-400 rounded-full animate-pulse transition-all duration-500 ${
+                  visibleCerts.includes(index) ? 'opacity-75' : 'opacity-0'
+                }`}></div>
               </div>
             </div>
           ))}
