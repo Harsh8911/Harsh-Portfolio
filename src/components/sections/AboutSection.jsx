@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Eye, EyeOff, Code, Palette, Zap, GraduationCap, Calendar, Award, MapPin } from 'lucide-react';
 import profileImage from '../../assets/harshgawali.jpg';
 
 const AboutSection = () => {
   const [showFull, setShowFull] = useState(true);
+  const [visibleEducation, setVisibleEducation] = useState([]);
+
+  useEffect(() => {
+    // Animate education timeline items one by one
+    const timer = setTimeout(() => {
+      education.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleEducation(prev => [...prev, index]);
+        }, index * 300); // 300ms delay between each item
+      });
+    }, 500); // Start after 500ms
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const fullText = (
     <>
@@ -120,18 +135,29 @@ const AboutSection = () => {
                 {education.map((edu, index) => (
                   <div
                     key={index}
-                    className="relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 ml-10"
+                    className={`relative bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-3 lg:p-5 border border-gray-200/50 dark:border-gray-700/50 ml-10 transition-all duration-500 ${
+                      visibleEducation.includes(index) 
+                        ? 'animate-timeline-slide opacity-100' 
+                        : 'opacity-0 transform translate-x-[-50px]'
+                    }`}
                   >
                     {/* Timeline dot */}
-                    <div className={`absolute -left-12 top-5 w-3 h-3 rounded-full border-3 ${
+                    <div className={`absolute -left-12 top-5 w-3 h-3 rounded-full border-3 transition-all duration-500 ${
                       edu.status === 'current' 
-                        ? 'bg-green-500 border-green-200' 
+                        ? 'bg-green-500 border-green-200 animate-pulse' 
                         : 'bg-blue-500 border-blue-200'
+                    } ${visibleEducation.includes(index) ? 'scale-100' : 'scale-0'}`}></div>
+                    
+                    {/* Connecting line animation */}
+                    <div className={`absolute -left-11 top-8 w-1 bg-gradient-to-b from-blue-500 to-purple-500 transition-all duration-700 ${
+                      visibleEducation.includes(index) ? 'h-16 opacity-100' : 'h-0 opacity-0'
                     }`}></div>
                     
                     {/* Status indicator */}
                     {edu.status === 'current' && (
-                      <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
+                      <div className={`absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full transition-all duration-500 ${
+                        visibleEducation.includes(index) ? 'animate-bounce' : ''
+                      }`}>
                         Current
                       </div>
                     )}
