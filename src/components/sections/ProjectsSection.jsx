@@ -64,6 +64,13 @@ const ProjectsSection = () => {
     setCurrentIndex(index);
   };
 
+  // Handle link clicks to prevent event bubbling
+  const handleLinkClick = (e, url) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="min-h-full p-2 lg:p-3">
       <div className="max-w-6xl mx-auto">
@@ -125,7 +132,7 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10 pointer-events-none`}></div>
                 
                 {/* Image Container */}
                 <div className="relative h-40 lg:h-48 overflow-hidden">
@@ -136,25 +143,23 @@ const ProjectsSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                   
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  {/* Hover Overlay with working links */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
                     <div className="flex gap-2">
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors transform hover:scale-110"
+                      <button
+                        onClick={(e) => handleLinkClick(e, project.demoUrl)}
+                        className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-all duration-300 transform hover:scale-110 cursor-pointer"
+                        title="View Live Demo"
                       >
-                        <ExternalLink size={16} />
-                      </a>
-                      <a
-                        href={project.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors transform hover:scale-110"
+                        <ExternalLink size={18} />
+                      </button>
+                      <button
+                        onClick={(e) => handleLinkClick(e, project.sourceUrl)}
+                        className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-all duration-300 transform hover:scale-110 cursor-pointer"
+                        title="View Source Code"
                       >
-                        <Github size={16} />
-                      </a>
+                        <Github size={18} />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -180,35 +185,34 @@ const ProjectsSection = () => {
                     ))}
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Action Buttons - Fixed with proper event handling */}
                   <div className="flex gap-2">
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium shadow-lg"
+                    <button
+                      onClick={(e) => handleLinkClick(e, project.demoUrl)}
+                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium shadow-lg cursor-pointer z-30 relative"
                     >
                       <ExternalLink size={12} />
                       Demo
-                    </a>
-                    <a
-                      href={project.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 text-xs font-medium"
+                    </button>
+                    <button
+                      onClick={(e) => handleLinkClick(e, project.sourceUrl)}
+                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 text-xs font-medium cursor-pointer z-30 relative"
                     >
                       <Github size={12} />
                       Code
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
             
             {/* View All Projects Card */}
-            <div className="group bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-              <a href="https://github.com/Harsh8911" target="_blank" rel="noopener noreferrer" className="block h-full">
+            <div className="group bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 relative cursor-pointer">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+              <button 
+                onClick={(e) => handleLinkClick(e, 'https://github.com/Harsh8911')} 
+                className="block h-full w-full"
+              >
                 <div className="h-full p-4 lg:p-6 text-white flex flex-col items-center justify-center text-center relative">
                   <div className="mb-3 p-3 bg-white/20 rounded-full group-hover:animate-bounce">
                     <ArrowRight size={24} />
@@ -220,7 +224,7 @@ const ProjectsSection = () => {
                     <span>10+ Repositories</span>
                   </div>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
         ) : (
@@ -295,24 +299,20 @@ const ProjectsSection = () => {
 
                           {/* Action Buttons */}
                           <div className="flex gap-3">
-                            <a
-                              href={project.demoUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 font-medium shadow-lg text-sm"
+                            <button
+                              onClick={(e) => handleLinkClick(e, project.demoUrl)}
+                              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 font-medium shadow-lg text-sm cursor-pointer"
                             >
                               <ExternalLink size={16} />
                               Live Demo
-                            </a>
-                            <a
-                              href={project.sourceUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 font-medium text-sm"
+                            </button>
+                            <button
+                              onClick={(e) => handleLinkClick(e, project.sourceUrl)}
+                              className="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 font-medium text-sm cursor-pointer"
                             >
                               <Github size={16} />
                               Source Code
-                            </a>
+                            </button>
                           </div>
                         </div>
                       </div>
