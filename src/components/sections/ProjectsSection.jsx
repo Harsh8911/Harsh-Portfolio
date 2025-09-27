@@ -201,27 +201,6 @@ const ProjectsSection = () => {
                       Code
                     </a>
                   </div>
-                  {/* Action Buttons */}
-                  <div className="flex gap-2">
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 hover:scale-105 text-xs font-medium shadow-lg"
-                    >
-                      <ExternalLink size={12} />
-                      Demo
-                    </a>
-                    <a
-                      href={project.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1 px-2 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 text-xs font-medium"
-                    >
-                      <Github size={12} />
-                      Code
-                    </a>
-                  </div>
                 </div>
               </div>
             ))}
