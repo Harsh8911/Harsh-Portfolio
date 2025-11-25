@@ -1,0 +1,5 @@
+{
+  "name": "DevPortfolio",
+  "description": "A modern, responsive, and animated personal portfolio website built with React, TypeScript, Tailwind CSS, and Framer Motion.",
+  "requestFramePermissions": []
+}
