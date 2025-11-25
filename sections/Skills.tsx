@@ -53,7 +53,7 @@ const Skills: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 dark:bg-indigo-900/10 blur-[100px] rounded-full -z-10" />
 
       <div className="mb-12 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">What I Have</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Skills</h2>
         <p className="text-gray-600 dark:text-gray-400 text-base">The stack I use to build and create.</p>
       </div>
 

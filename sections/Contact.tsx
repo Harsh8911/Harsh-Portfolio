@@ -13,7 +13,7 @@ const Contact: React.FC<ContactProps> = ({ onChatClick }) => {
        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-500/5 dark:bg-primary-900/10 blur-[120px] rounded-full -z-10 pointer-events-none" />
 
       <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Get In Touch</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Contact</h2>
         <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">Reach out via email, phone, or join the live chat.</p>
       </div>
 

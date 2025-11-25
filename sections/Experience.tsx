@@ -27,7 +27,7 @@ const Experience: React.FC = () => {
   return (
     <SectionWrapper id="experience" className="relative z-10">
       <div className="mb-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Where I've Been</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Experience</h2>
         <p className="text-gray-600 dark:text-gray-400 text-base">Professional roles and impactful milestones.</p>
       </div>
 

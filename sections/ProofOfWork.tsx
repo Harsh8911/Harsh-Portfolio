@@ -142,15 +142,15 @@ type TabType = 'certifications' | 'achievements';
 const ProofOfWork: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('certifications');
 
-  return (
-    <SectionWrapper id="proof" className="relative">
+    return (
+        <SectionWrapper id="certifications" className="relative">
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-500/10 dark:bg-primary-500/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
 
-      <div className="mb-8 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Proof of Work</h2>
-        <p className="text-gray-600 dark:text-gray-400 text-base">My professional milestones and recognitions.</p>
-      </div>
+            <div className="mb-8 text-center">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Certifications</h2>
+                <p className="text-gray-600 dark:text-gray-400 text-base">My professional milestones and recognitions.</p>
+            </div>
 
       {/* Transparent Tab Navigation */}
       <div className="flex justify-center mb-10">

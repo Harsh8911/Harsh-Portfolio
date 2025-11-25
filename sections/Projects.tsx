@@ -43,7 +43,7 @@ const Projects: React.FC = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">What I Built</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Projects</h2>
           <p className="text-gray-600 dark:text-gray-400 text-base">Featured projects and experiments.</p>
         </div>
         <a 

@@ -45,12 +45,12 @@ const timelineData: TimelineItem[] = [
 
 const MyStory: React.FC = () => {
   return (
-    <SectionWrapper id="story" className="relative">
+    <SectionWrapper id="about" className="relative">
       {/* Ambient Background for Transparency Effect */}
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary-200/30 dark:bg-primary-900/10 blur-[100px] rounded-full -z-10 pointer-events-none" />
 
       <div className="mb-12 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">My Story</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">About</h2>
         <p className="text-gray-600 dark:text-gray-400 text-base">My educational journey and academic milestones.</p>
       </div>
 
