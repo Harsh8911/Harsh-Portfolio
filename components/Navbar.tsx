@@ -50,15 +50,38 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   }, []);
 
   const handleNavClick = (href: string) => {
+    // Normalize id (allow '#about' or 'about')
+    const id = href.startsWith('#') ? href.substring(1) : href;
+    // Close the mobile menu first so the overlay doesn't block scrolling
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 70; // Account for navbar height
-      window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-      });
-    }
+
+    // Delay the scroll slightly to allow the overlay to disappear
+    setTimeout(() => {
+      const element = document.getElementById(id) || document.querySelector(href);
+      if (element && element instanceof HTMLElement) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Brief focus to help observers/animations trigger
+        try {
+          const prevTab = element.getAttribute('tabindex');
+          element.setAttribute('tabindex', '-1');
+          setTimeout(() => {
+            element.focus({ preventScroll: true });
+            if (prevTab === null) element.removeAttribute('tabindex');
+          }, 350);
+        } catch (e) {
+          // ignore
+        }
+
+        // Retry once after a short delay if the element still isn't in view
+        setTimeout(() => {
+          const rect = element.getBoundingClientRect();
+          if (rect.top < 0 || rect.top > (window.innerHeight || document.documentElement.clientHeight)) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 500);
+      }
+    }, 120);
   };
 
   const showBackground = scrolled || isOpen;
@@ -124,8 +147,8 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
             
           <div className="hidden lg:flex items-center space-x-3">
              <div className="flex gap-3 text-gray-500 dark:text-gray-400">
-                <a href="https://github.com/Harsh8911" target="_blank" rel="noopener noreferrer" className="hover:text-primary-600 transition-colors"><FaGithub size={18} /></a>
-                <a href="https://www.linkedin.com/in/harsh-gawali-51572a294?" target="_blank" rel="noopener noreferrer" className="hover:text-primary-600 transition-colors"><FaLinkedin size={18} /></a>
+                <a href="https://github.com/Harsh8911" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub" className="hover:text-primary-600 transition-colors"><FaGithub size={18} /></a>
+                <a href="https://www.linkedin.com/in/harsh-gawali-51572a294?" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn" className="hover:text-primary-600 transition-colors"><FaLinkedin size={18} /></a>
              </div>
              <div className="w-px h-5 bg-gray-300 dark:bg-gray-700 mx-2"></div>
               <button 
@@ -166,9 +189,13 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
           >
             <div className="px-4 pt-4 pb-6 space-y-2">
               {navItems.map((item) => (
-                <button
+                <a
                   key={item.name}
-                  onClick={() => handleNavClick(item.href)}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.href);
+                  }}
                   className={`block w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.href.substring(1)
                       ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
@@ -176,11 +203,11 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
                   }`}
                 >
                   {item.name}
-                </button>
+                </a>
               ))}
               <div className="flex justify-center space-x-6 pt-6 mt-4 border-t border-gray-100 dark:border-gray-800">
-                <a href="https://github.com/Harsh8911" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary-600 transition-colors"><FaGithub size={24} /></a>
-                <a href="https://www.linkedin.com/in/harsh-gawali-51572a294?" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary-600 transition-colors"><FaLinkedin size={24} /></a>
+                <a href="https://github.com/Harsh8911" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub" className="text-gray-500 hover:text-primary-600 transition-colors"><FaGithub size={24} /></a>
+                <a href="https://www.linkedin.com/in/harsh-gawali-51572a294?" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn" className="text-gray-500 hover:text-primary-600 transition-colors"><FaLinkedin size={24} /></a>
               </div>
             </div>
           </motion.div>
