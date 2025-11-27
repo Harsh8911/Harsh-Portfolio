@@ -66,17 +66,17 @@ const App: React.FC = () => {
 
   if (showCommunity) {
       return (
-          <div className="bg-white dark:bg-gray-950 min-h-screen transition-colors duration-300 font-sans selection:bg-primary-500/30">
+          <div className="bg-white dark:bg-gray-950 min-h-screen transition-colors duration-300 font-sans selection:bg-primary-500/30 overflow-x-hidden">
              <Community onBack={() => setShowCommunity(false)} />
           </div>
       )
   }
 
   return (
-    <div className="bg-white dark:bg-gray-950 min-h-screen transition-colors duration-300 font-sans selection:bg-primary-500/30">
+    <div className="bg-white dark:bg-gray-950 min-h-screen w-full overflow-x-hidden transition-colors duration-300 font-sans selection:bg-primary-500/30">
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       
-      <main>
+      <main className="w-full overflow-x-hidden">
         <Hero />
         <MyStory />
         <Skills />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaUniversity, FaSchool, FaCalendarAlt, FaStar } from 'react-icons/fa';
+import { FaGraduationCap, FaUniversity, FaSchool, FaMapMarkerAlt, FaCode, FaLaptopCode } from 'react-icons/fa';
 import SectionWrapper from '../components/SectionWrapper';
 
 interface TimelineItem {
@@ -11,57 +11,96 @@ interface TimelineItem {
   description: string;
   grade: string;
   icon: React.ElementType;
+  tags: string[];
 }
 
 const timelineData: TimelineItem[] = [
   {
     id: 1,
-    year: 'Sep 2023 - Jul 2026',
-    title: 'Bachelor of Engineering - Computer Engineering',
-    institution: 'Sandip Institute of Engineering & Management, Nashik',
-    description: 'Currently pursuing B.E. in Computer Engineering with focus on software development and emerging technologies.',
+    year: '2023 - Present',
+    title: 'Bachelor of Engineering',
+    institution: 'Sandip Institute (SIEM), Nashik',
+    description: 'Specializing in Computer Engineering. Leading technical teams and building scalable full-stack applications.',
     grade: 'CGPA: 9.29',
     icon: FaUniversity,
+    tags: ['Computer Engg', 'Full Stack', 'Leadership']
   },
   {
     id: 2,
-    year: 'Jan 2021 - Jul 2023',
-    title: 'Diploma in Computer Engineering',
-    institution: 'Shikshan Maharshi Dadasaheb Rawal Government Polytechnic, Dhule',
-    description: 'Completed diploma with first class distinction, gaining strong foundation in programming and computer systems.',
-    grade: 'Percentage: 83.94%',
-    icon: FaSchool,
+    year: '2021 - 2023',
+    title: 'Diploma in Computer Engg.',
+    institution: 'Govt. Polytechnic, Dhule',
+    description: 'Built a strong foundation in systems programming, algorithms, and hardware architecture. Graduated with distinction.',
+    grade: '83.94%',
+    icon: FaLaptopCode,
+    tags: ['Algorithms', 'Systems', 'Java']
   },
   {
     id: 3,
     year: '2020',
-    title: 'SSC (10th Standard)',
-    institution: 'Kai. N.S.P Patil Vidhyalay Pimpalner Dhule',
-    description: 'Completed secondary education with excellent academic performance and strong foundation in mathematics and science.',
-    grade: 'Percentage: 91.40%',
-    icon: FaGraduationCap,
+    title: 'Secondary School (SSC)',
+    institution: 'K.N.S.P Patil Vidhyalay',
+    description: 'Early academic excellence with a focus on Mathematics and Science, setting the stage for engineering.',
+    grade: '91.40%',
+    icon: FaSchool,
+    tags: ['Mathematics', 'Science']
   },
 ];
 
+const StatCard = ({ icon: Icon, label, value, delay }: { icon: any, label: string, value: string, delay: number }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay, duration: 0.5 }}
+    className="flex items-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-gray-800/40 backdrop-blur-md border border-gray-200 dark:border-gray-700/50 shadow-sm hover:shadow-lg transition-all duration-300"
+  >
+    <div className="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+      <Icon size={24} />
+    </div>
+    <div>
+      <p className="text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider">{label}</p>
+      <p className="text-lg font-bold text-gray-900 dark:text-white leading-tight">{value}</p>
+    </div>
+  </motion.div>
+);
+
 const MyStory: React.FC = () => {
   return (
-    <SectionWrapper id="about" className="relative">
-      {/* Ambient Background for Transparency Effect */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary-200/30 dark:bg-primary-900/10 blur-[100px] rounded-full -z-10 pointer-events-none" />
-
-      <div className="mb-12 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">About</h2>
-        <p className="text-gray-600 dark:text-gray-400 text-base">My educational journey and academic milestones.</p>
+    <SectionWrapper id="story" className="relative overflow-visible">
+      {/* Dynamic Background Mesh */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+         <div className="absolute top-[20%] right-[10%] w-72 h-72 bg-blue-500/10 rounded-full blur-[80px]" />
+         <div className="absolute bottom-[20%] left-[10%] w-72 h-72 bg-purple-500/10 rounded-full blur-[80px]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4">
-        {/* Center Line for Desktop */}
-        <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500/50 via-primary-300/50 to-transparent dark:from-primary-600/50 dark:via-gray-800/50" />
+      {/* Header Section */}
+      <div className="mb-16 text-center">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          className="inline-block mb-3 px-4 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-widest"
+        >
+          The Journey So Far
+        </motion.div>
+        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+          Crafting My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400">Digital Identity</span>
+        </h2>
         
-        {/* Left Line for Mobile */}
-        <div className="md:hidden absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500/50 via-primary-300/50 to-transparent dark:from-primary-600/50 dark:via-gray-800/50" />
+        {/* Bio Stats Grid - The "HUD" */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
+            <StatCard icon={FaCode} label="Experience" value="3+ Years Coding" delay={0.1} />
+            <StatCard icon={FaUniversity} label="Current Status" value="Engineering Student" delay={0.2} />
+            <StatCard icon={FaMapMarkerAlt} label="Location" value="Maharashtra, India" delay={0.3} />
+        </div>
+      </div>
 
-        <div className="space-y-10">
+      {/* Futuristic Timeline */}
+      <div className="relative max-w-5xl mx-auto px-2 md:px-4">
+        {/* The Data Stream Line */}
+        <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 via-purple-500 to-transparent opacity-30 rounded-full" />
+        
+        <div className="space-y-12 md:space-y-20">
           {timelineData.map((item, index) => {
             const isEven = index % 2 === 0;
             return (
@@ -70,70 +109,84 @@ const MyStory: React.FC = () => {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.2 }}
-                className={`relative flex flex-col md:flex-row items-center ${
+                transition={{ duration: 0.7, delay: index * 0.1 }}
+                className={`relative flex flex-col md:flex-row items-center gap-8 ${
                   isEven ? "md:flex-row" : "md:flex-row-reverse"
                 }`}
               >
-                {/* Center Icon */}
-                <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 flex items-center justify-center z-10">
-                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white dark:bg-gray-950 border-4 border-primary-100 dark:border-primary-900 shadow-lg flex items-center justify-center transition-transform duration-300 hover:scale-110">
-                     <item.icon className="text-primary-600 dark:text-primary-400 text-base md:text-lg" />
-                   </div>
+                {/* The Connector Node */}
+                <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-10">
+                   <motion.div 
+                     whileHover={{ scale: 1.2, rotate: 180 }}
+                     transition={{ duration: 0.5 }}
+                     className="w-4 h-4 md:w-6 md:h-6 rounded-full bg-white dark:bg-gray-900 border-4 border-primary-500 shadow-[0_0_15px_rgba(139,92,246,0.5)]"
+                   />
                 </div>
 
-                {/* Card Content */}
-                <div className={`w-full md:w-1/2 pl-20 md:pl-0 ${isEven ? 'md:pr-12' : 'md:pl-12'}`}>
+                {/* The Date Label (Desktop) */}
+                <div className={`hidden md:block w-1/2 text-center ${isEven ? 'pr-12 text-right' : 'pl-12 text-left'}`}>
+                   <span className="font-mono text-primary-600 dark:text-primary-400 font-bold text-lg tracking-wider opacity-80">{item.year}</span>
+                </div>
+
+                {/* The Holographic Card */}
+                <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${isEven ? 'md:pl-16' : 'md:pr-16'}`}>
                   <motion.div
-                    whileHover={{ scale: 1.03, y: -5 }}
-                    className="group p-5 md:p-6 rounded-2xl bg-white/40 dark:bg-gray-900/40 backdrop-blur-md border border-white/50 dark:border-gray-700/30 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col relative overflow-hidden text-left h-full"
+                    whileHover={{ y: -5, boxShadow: "0 20px 40px -15px rgba(0,0,0,0.2)" }}
+                    className="group relative bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-gray-200 dark:border-gray-700/50 p-6 md:p-8 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
                   >
-                    {/* Card Shine Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    {/* Glowing Corner Accent */}
+                    <div className={`absolute top-0 w-24 h-24 bg-gradient-to-br from-primary-500/20 to-transparent blur-2xl -z-10 ${isEven ? 'left-0' : 'right-0'}`} />
+                    
+                    <div className="flex flex-col gap-4">
+                        {/* Mobile Date Label */}
+                        <div className="md:hidden flex items-center gap-2 mb-1">
+                            <span className="px-2 py-1 rounded bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-mono font-bold">
+                                {item.year}
+                            </span>
+                        </div>
 
-                    {/* Date Badge */}
-                    <div className="mb-3">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-100/50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-[10px] font-semibold tracking-wide w-fit border border-primary-200/20 dark:border-primary-700/20">
-                        <FaCalendarAlt size={10} />
-                        {item.year}
-                      </span>
-                    </div>
+                        {/* Header */}
+                        <div className="flex items-start justify-between gap-4">
+                            <div>
+                                <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                    {item.title}
+                                </h3>
+                                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 font-medium text-sm md:text-base">
+                                    <FaGraduationCap className="text-primary-500" />
+                                    {item.institution}
+                                </div>
+                            </div>
+                            <div className="hidden sm:flex w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center text-gray-500 dark:text-gray-400 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+                                <item.icon size={18} />
+                            </div>
+                        </div>
 
-                    {/* Title & Institution */}
-                    <div className="mb-3">
-                      <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors leading-tight">
-                        {item.title}
-                      </h3>
-                      
-                      {/* Transparent Card for Institution Name */}
-                      <div className="inline-block px-3 py-1.5 rounded-lg bg-white/60 dark:bg-gray-800/40 border border-white/60 dark:border-gray-700/50 shadow-sm backdrop-blur-sm">
-                        <h4 className="text-xs md:text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            {item.institution}
-                        </h4>
-                      </div>
-                    </div>
+                        <div className="w-full h-px bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 my-1" />
 
-                    {/* Description */}
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm mb-4 flex-grow">
-                      {item.description}
-                    </p>
+                        {/* Description */}
+                        <p className="text-gray-700 dark:text-gray-400 text-sm leading-relaxed">
+                            {item.description}
+                        </p>
 
-                    {/* Footer / Grade */}
-                    <div className="mt-auto pt-3 border-t border-gray-200/50 dark:border-gray-700/50">
-                        <span className="inline-flex items-center gap-1.5 text-gray-900 dark:text-white font-bold text-xs bg-white/50 dark:bg-gray-800/50 px-3 py-1.5 rounded-lg backdrop-blur-sm shadow-sm">
-                            <FaStar className="text-yellow-500" size={12} />
-                            {item.grade}
-                        </span>
+                        {/* Footer: Grade & Tags */}
+                        <div className="flex flex-wrap items-center gap-3 mt-2">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold border border-green-100 dark:border-green-800">
+                                {item.grade}
+                            </span>
+                            {item.tags.map(tag => (
+                                <span key={tag} className="text-xs font-mono text-gray-500 dark:text-gray-500">#{tag}</span>
+                            ))}
+                        </div>
                     </div>
                   </motion.div>
                 </div>
-
-                {/* Empty Spacer for Desktop Alignment */}
-                <div className="hidden md:block md:w-1/2" />
               </motion.div>
             );
           })}
         </div>
+        
+        {/* End of Line Indicator */}
+        <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 bottom-0 w-3 h-3 bg-primary-500 rounded-full animate-ping" />
       </div>
     </SectionWrapper>
   );

@@ -9,18 +9,18 @@ interface NavbarProps {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
+  { name: 'Home', href: '#hero' },
+  { name: 'About', href: '#story' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
   { name: 'Experience', href: '#experience' },
-  { name: 'Certifications', href: '#certifications' },
+  { name: 'Milestones', href: '#proof' },
   { name: 'Contact', href: '#contact' },
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
 
   // Handle scroll effects
@@ -66,14 +66,14 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <nav 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full ${
             showBackground 
             ? 'bg-white/70 dark:bg-gray-950/70 backdrop-blur-lg border-b border-gray-200/20 dark:border-gray-800/20 shadow-sm py-3' 
             : 'bg-transparent py-5'
         }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="flex justify-between items-center w-full">
           {/* Logo/Brand */}
           <motion.div 
             initial="hidden"
@@ -87,8 +87,8 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
                 }
               }
             }}
-            className="text-2xl font-bold font-cursive text-primary-600 dark:text-primary-500 cursor-pointer tracking-tight flex"
-            onClick={() => handleNavClick('#home')}
+            className="text-2xl font-bold font-cursive text-primary-600 dark:text-primary-500 cursor-pointer tracking-tight flex truncate flex-shrink min-w-0"
+            onClick={() => handleNavClick('#hero')}
           >
             {brandName.split("").map((char, index) => (
               <motion.span
@@ -137,8 +137,8 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
               </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-3">
+          {/* Mobile Menu Button - Pushed right */}
+          <div className="lg:hidden flex items-center gap-3 ml-auto flex-shrink-0 pl-2">
             <button 
               onClick={toggleDarkMode}
               className="p-1.5 text-gray-600 dark:text-yellow-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
@@ -162,7 +162,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/70 dark:bg-gray-950/70 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 overflow-hidden"
+            className="lg:hidden bg-white/70 dark:bg-gray-950/70 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 overflow-hidden absolute w-full left-0 z-50"
           >
             <div className="px-4 pt-4 pb-6 space-y-2">
               {navItems.map((item) => (

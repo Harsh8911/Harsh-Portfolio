@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPaperPlane, FaGlobeAmericas, FaShieldAlt, FaArrowLeft, FaLock, FaUser, FaEnvelope, FaReply } from 'react-icons/fa';
+import { FaPaperPlane, FaGlobeAmericas, FaShieldAlt, FaArrowLeft, FaLock, FaUser, FaEnvelope, FaReply, FaSyncAlt } from 'react-icons/fa';
 import { db } from '../lib/firebase';
 import { collection, addDoc, query, where, onSnapshot, serverTimestamp, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import emailjs from '@emailjs/browser';
 
 interface CommunityProps {
     onBack: () => void;
@@ -18,6 +19,18 @@ interface Message {
   reply?: string; // For DM replies
   repliedAt?: any;
 }
+
+// --- CONFIGURATION FOR EMAIL NOTIFICATIONS ---
+// TODO: Replace these placeholders with your actual EmailJS credentials
+// 1. Go to https://www.emailjs.com/ and create a free account.
+// 2. Add a Service (e.g., Gmail).
+// 3. Add a Template. Use variables: {{from_name}}, {{from_email}}, {{message}}.
+// 4. Get your Public Key from Account > API Keys.
+const EMAIL_CONFIG = {
+    SERVICE_ID: "service_ydoi4vi",     // Updated as per user request
+    TEMPLATE_ID: "YOUR_TEMPLATE_ID",   // Placeholder: Update this from EmailJS
+    PUBLIC_KEY: "YOUR_PUBLIC_KEY"      // Placeholder: Update this from EmailJS
+};
 
 const getFirestoreErrorMessage = (error: any) => {
     if (!error) return 'An unknown error occurred.';
@@ -42,11 +55,13 @@ const getTimestampMillis = (timestamp: any) => {
     if (typeof timestamp === 'number') return timestamp; // Serialized or Millis
     if (timestamp.toMillis) return timestamp.toMillis(); // Firestore Timestamp
     if (timestamp.seconds) return timestamp.seconds * 1000; // Firestore JSON
+    if (typeof timestamp === 'string') return new Date(timestamp).getTime();
     return Date.now();
 };
 
 const formatTime = (timestamp: any) => {
     const millis = getTimestampMillis(timestamp);
+    if (isNaN(millis)) return 'Just now';
     return new Date(millis).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 
@@ -64,6 +79,8 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
 
   // State for Private Messages
   const [privateMessages, setPrivateMessages] = useState<Message[]>([]);
+  const [loadingPrivate, setLoadingPrivate] = useState(false);
+  const [permissionError, setPermissionError] = useState(false);
 
   // Form State
   const [username, setUsername] = useState(() => localStorage.getItem('comm_username') || '');
@@ -115,35 +132,55 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
 
   // Fetch Private Messages (Dependent on Email)
   useEffect(() => {
-      if (activeTab === 'private' && email.trim() && email.includes('@')) {
-           const cacheKey = `community_private_${email}`;
+      const normalizedEmail = email.toLowerCase().trim();
+      const validEmail = normalizedEmail.includes('@') && normalizedEmail.includes('.');
+
+      if (activeTab === 'private' && validEmail) {
+           setLoadingPrivate(true);
+           setPermissionError(false);
+           const cacheKey = `community_private_${normalizedEmail}`;
+           
            // Load cached private messages
            try {
                const cached = localStorage.getItem(cacheKey);
                if (cached) setPrivateMessages(JSON.parse(cached));
            } catch (e) { /* ignore */ }
 
-           const q = query(collection(db, 'private_messages'), where('email', '==', email));
+           const q = query(collection(db, 'private_messages'), where('email', '==', normalizedEmail));
+           console.log("Listening for private messages for:", normalizedEmail);
+
            const unsubscribe = onSnapshot(q, (snapshot) => {
                const msgs = snapshot.docs.map(doc => ({
                    id: doc.id,
                    ...doc.data()
                })) as Message[];
 
+               console.log("Received private messages:", msgs.length);
+
                // Sort: Oldest first
                msgs.sort((a, b) => getTimestampMillis(a.createdAt) - getTimestampMillis(b.createdAt));
 
-               setPrivateMessages(msgs);
+               // Force create new reference to ensure re-render
+               setPrivateMessages([...msgs]);
+               
                localStorage.setItem(cacheKey, JSON.stringify(msgs));
+               setLoadingPrivate(false);
                setTimeout(() => scrollToBottom(), 100);
            }, (err) => {
-               // Silently handle permission errors if rules block reading
                console.warn("Private Snapshot Warning:", err.code);
+               if (err.code === 'permission-denied') {
+                   setPermissionError(true);
+               }
+               setLoadingPrivate(false);
            });
 
            return () => unsubscribe();
       } else {
-          setPrivateMessages([]);
+           if (!normalizedEmail) {
+               setPrivateMessages([]);
+               setLoadingPrivate(false);
+               setPermissionError(false);
+           }
       }
   }, [activeTab, email]);
 
@@ -154,7 +191,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
       const q = query(collection(db, 'typing'));
       const unsubscribe = onSnapshot(q, (snapshot) => {
           const now = Date.now();
-          const typers = snapshot.docs
+          const typers: string[] = snapshot.docs
               .map(d => ({ id: d.id, ...d.data() } as { id: string, user: string, timestamp: any }))
               .filter(t => {
                   if (t.id === sessionId) return false;
@@ -163,7 +200,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
               })
               .map(t => t.user);
 
-          setActiveTypers([...new Set(typers)]);
+          setActiveTypers(Array.from(new Set(typers)));
       }, (error) => {
           console.warn("Typing feature warning:", error.code);
       });
@@ -193,9 +230,17 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
       }
   };
 
+  const forceRefreshPrivate = () => {
+      const temp = email;
+      setEmail('');
+      setTimeout(() => setEmail(temp), 50);
+  };
+
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputText.trim() || !username.trim() || !email.trim()) {
+    const normalizedEmail = email.toLowerCase().trim();
+
+    if (!inputText.trim() || !username.trim() || !normalizedEmail) {
         setError("⚠️ Please fill in all fields (Name, Email, Message).");
         return;
     }
@@ -208,7 +253,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
         if (activeTab === 'public') {
             await addDoc(collection(db, 'messages'), {
                 username,
-                email,
+                email: normalizedEmail,
                 text: inputText,
                 createdAt: serverTimestamp(),
                 isApproved: false
@@ -220,21 +265,66 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
             const newMsg: Message = {
                 id: 'temp-' + Date.now(),
                 username,
-                email,
+                email: normalizedEmail,
                 text: inputText,
                 createdAt: Date.now(),
                 reply: undefined
             };
-            setPrivateMessages(prev => [...prev, newMsg]);
+            
+            // Add system auto-reply to local state immediately
+            // Enhanced to confirm email notification
+            const autoReplyMsg: Message = {
+                id: 'auto-reply-' + Date.now(),
+                username: username, // Attached to user message for structure
+                email: normalizedEmail,
+                text: inputText,
+                createdAt: Date.now(),
+                reply: "Thanks for reaching out! Harsh has been notified via email and will reply shortly.",
+                repliedAt: Date.now()
+            }
+            
+            // Update local state and cache immediately to persist across refresh
+            const updatedMsgs = [...privateMessages, autoReplyMsg];
+            setPrivateMessages(updatedMsgs);
+            localStorage.setItem(`community_private_${normalizedEmail}`, JSON.stringify(updatedMsgs));
             
             await addDoc(collection(db, 'private_messages'), {
                 username,
-                email,
+                email: normalizedEmail,
                 text: inputText,
                 createdAt: serverTimestamp(),
                 reply: null
             });
-            setSuccessMsg("🔒 Private message sent to Admin.");
+
+            // --- SEND EMAIL NOTIFICATION ---
+            // Check if all necessary config is present
+            const isEmailConfigured = 
+                EMAIL_CONFIG.SERVICE_ID !== "YOUR_SERVICE_ID" && 
+                EMAIL_CONFIG.TEMPLATE_ID !== "YOUR_TEMPLATE_ID" && 
+                EMAIL_CONFIG.PUBLIC_KEY !== "YOUR_PUBLIC_KEY";
+
+            if (isEmailConfigured) {
+                const templateParams = {
+                    to_name: 'Harsh Gawali',
+                    from_name: username,
+                    from_email: normalizedEmail,
+                    message: inputText,
+                    reply_to: normalizedEmail
+                };
+                
+                emailjs.send(
+                    EMAIL_CONFIG.SERVICE_ID, 
+                    EMAIL_CONFIG.TEMPLATE_ID, 
+                    templateParams, 
+                    EMAIL_CONFIG.PUBLIC_KEY
+                )
+                .then(() => console.log("📧 Email notification sent to admin."))
+                .catch((err) => console.error("📧 Email notification failed:", err));
+            } else {
+                console.log("⚠️ EmailJS not fully configured. Service ID updated, but missing Template ID or Public Key.");
+            }
+
+            setSuccessMsg("🔒 Private message sent & emailed to Harsh.");
         }
         setInputText('');
         scrollToBottom();
@@ -295,15 +385,15 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                
                <button 
                   onClick={() => setActiveTab('public')}
-                  className={`flex-1 relative z-10 flex items-center justify-center gap-2 py-2 text-sm font-bold transition-colors ${activeTab === 'public' ? 'text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                  className={`flex-1 relative z-10 flex items-center justify-center gap-2 py-2 text-sm font-bold transition-colors ${activeTab === 'public' ? 'text-white' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
               >
                   <FaGlobeAmericas /> Public Wall
                </button>
                <button 
                   onClick={() => setActiveTab('private')}
-                  className={`flex-1 relative z-10 flex items-center justify-center gap-2 py-2 text-sm font-bold transition-colors ${activeTab === 'private' ? 'text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                  className={`flex-1 relative z-10 flex items-center justify-center gap-2 py-2 text-sm font-bold transition-colors ${activeTab === 'private' ? 'text-white' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
               >
-                  <FaShieldAlt /> Admin DM
+                  <FaShieldAlt /> Direct Msg
                </button>
           </div>
        </div>
@@ -312,6 +402,15 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
        <div className="flex-1 overflow-hidden relative z-10 max-w-4xl mx-auto w-full px-4 pb-4 md:pb-6">
             <div className="bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl border border-white/60 dark:border-gray-700/50 rounded-3xl shadow-2xl w-full h-full flex flex-col overflow-hidden relative">
                  
+                 {/* Header for Private (Optional Sync) */}
+                 {activeTab === 'private' && (
+                     <div className="flex-none p-2 border-b border-gray-100 dark:border-gray-800 flex justify-end">
+                         <button onClick={forceRefreshPrivate} className="p-2 text-gray-400 hover:text-primary-600 transition-colors" title="Sync Messages">
+                             <FaSyncAlt size={12} className={loadingPrivate ? "animate-spin" : ""} />
+                         </button>
+                     </div>
+                 )}
+
                  {/* Messages Area */}
                  <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 relative">
                      {activeTab === 'public' ? (
@@ -322,7 +421,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                                         <span className="text-[10px] font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">System</span>
                                     </div>
                                     <div className="p-4 rounded-2xl rounded-tl-none bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
-                                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        <p className="text-sm text-gray-800 dark:text-gray-300 leading-relaxed">
                                             👋 <strong>Welcome to the Community Wall!</strong><br/>
                                             Share your thoughts. All messages are moderated.
                                         </p>
@@ -348,7 +447,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                                         <div className={`max-w-[85%] md:max-w-[70%] p-3.5 rounded-2xl shadow-sm text-sm leading-relaxed ${
                                             isMe 
                                             ? 'bg-gradient-to-br from-primary-600 to-primary-700 text-white rounded-tr-none' 
-                                            : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-tl-none'
+                                            : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border border-gray-200 dark:border-gray-700 rounded-tl-none'
                                         }`}>
                                             {msg.text}
                                         </div>
@@ -385,20 +484,32 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                         <>
                             {(!email.trim() || !email.includes('@')) ? (
                                 <div className="flex flex-col items-center justify-center h-full text-center p-8">
-                                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-400 mb-4">
+                                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-400 mb-4 animate-pulse">
                                         <FaLock size={24} />
                                     </div>
                                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Private Direct Message</h3>
-                                    <p className="text-sm text-gray-500 max-w-xs mx-auto mb-4">
-                                        Enter your email below to start a secure chat with the admin and view your conversation history.
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xs mx-auto mb-4">
+                                        Enter your full email below to <span className="text-primary-600 dark:text-primary-400 font-bold">load previous chat history</span> and start a conversation.
                                     </p>
                                 </div>
                             ) : (
                                 <>
-                                    {privateMessages.length === 0 ? (
+                                    {permissionError && (
+                                        <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl mb-4 text-center">
+                                            <p className="text-xs font-bold text-red-600 dark:text-red-400">Access Denied: Please update Firestore Rules</p>
+                                        </div>
+                                    )}
+
+                                    {loadingPrivate && privateMessages.length === 0 && (
+                                         <div className="flex justify-center p-4">
+                                             <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
+                                         </div>
+                                    )}
+                                    {!loadingPrivate && privateMessages.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center h-full text-center p-8 opacity-50">
                                             <FaLock size={32} className="mb-4 text-gray-300" />
-                                            <p className="text-sm text-gray-500">No messages yet. Start a conversation!</p>
+                                            <p className="text-sm text-gray-500">No previous messages found for this email.</p>
+                                            <p className="text-xs text-gray-400 mt-1">Check for typos or start a new conversation!</p>
                                         </div>
                                     ) : (
                                         privateMessages.map((msg) => (
@@ -422,7 +533,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                                                     >
                                                         <div className="flex items-center gap-2 mb-1 px-1">
                                                             <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300 flex items-center gap-1">
-                                                                <FaShieldAlt size={10} className="text-primary-500"/> Admin
+                                                                <FaShieldAlt size={10} className="text-primary-500"/> Harsh
                                                                 {msg.repliedAt && <span className="font-normal opacity-70">• {formatTime(msg.repliedAt)}</span>}
                                                             </span>
                                                         </div>
@@ -453,7 +564,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                                 placeholder="Name" 
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full bg-gray-100 dark:bg-gray-900 border border-transparent focus:border-primary-500 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-0 outline-none dark:text-white transition-all"
+                                className="w-full bg-gray-100 dark:bg-gray-900 border border-transparent focus:border-primary-500 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-0 outline-none text-gray-900 dark:text-white transition-all"
                              />
                          </div>
                          <div className="relative w-2/3 group">
@@ -462,10 +573,10 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                              </div>
                              <input 
                                 type="email" 
-                                placeholder="Email (Required for DMs)" 
+                                placeholder="Email (Loads history)" 
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-gray-100 dark:bg-gray-900 border border-transparent focus:border-primary-500 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-0 outline-none dark:text-white transition-all"
+                                className="w-full bg-gray-100 dark:bg-gray-900 border border-transparent focus:border-primary-500 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-0 outline-none text-gray-900 dark:text-white transition-all"
                              />
                          </div>
                      </div>
@@ -475,7 +586,7 @@ const Community: React.FC<CommunityProps> = ({ onBack }) => {
                           type="text"
                           value={inputText}
                           onChange={handleInputChange}
-                          placeholder={activeTab === 'public' ? "Type a message..." : "Type a private message to Admin..."}
+                          placeholder={activeTab === 'public' ? "Type a message..." : "Type a private message to Harsh..."}
                           className="flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all text-sm border border-transparent focus:border-primary-500"
                           disabled={isSending}
                         />

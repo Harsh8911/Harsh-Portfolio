@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { db, auth } from '../lib/firebase';
 import { collection, query, where, onSnapshot, doc, updateDoc, deleteDoc, setDoc, getDocs, writeBatch } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -27,6 +27,7 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     const [tab, setTab] = useState<'pending' | 'private'>('pending');
     const [searchTerm, setSearchTerm] = useState('');
     const [permissionError, setPermissionError] = useState(false);
+    const chatEndRef = useRef<HTMLDivElement>(null);
 
     // Drafts State
     const [drafts, setDrafts] = useState<{ [key: string]: string }>(() => {
@@ -86,6 +87,8 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     useEffect(() => {
         if (selectedId && tab === 'private') {
             setReplyText(drafts[selectedId] || '');
+            // Auto scroll to bottom
+            setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
         } else {
             setReplyText('');
         }
@@ -173,7 +176,15 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
 
     const sendReply = async (id: string) => {
         if (!replyText.trim()) return;
+        
+        // Optimistic Update
+        const updatedMsgs = privateMsgs.map(msg => 
+            msg.id === id ? { ...msg, reply: replyText, repliedAt: new Date() } : msg
+        );
+        setPrivateMsgs(updatedMsgs); // Update UI immediately
+
         try {
+            // Using new Date() instead of serverTimestamp() for easier client-side display consistency in optimistic UI
             await updateDoc(doc(db, 'private_messages', id), {
                 reply: replyText,
                 repliedAt: new Date()
@@ -185,6 +196,7 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
             localStorage.setItem('adminReplyDrafts', JSON.stringify(newDrafts));
             
             setReplyText('');
+            setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
         } catch (e) { handleActionError(e); }
     };
 
@@ -289,7 +301,11 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                                         </span>
                                     </div>
                                     <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{msg.text}</p>
-                                    {tab === 'private' && msg.reply && <div className="flex items-center gap-1 mt-1 text-[10px] text-green-600 font-medium"><FaReply size={8} /> Replied</div>}
+                                    {tab === 'private' && msg.reply && (
+                                        <div className="flex items-center gap-1 mt-1 text-[10px] text-green-600 font-medium bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded w-fit">
+                                            <FaReply size={8} /> Replied
+                                        </div>
+                                    )}
                                     {tab === 'private' && !msg.reply && drafts[msg.id] && <div className="flex items-center gap-1 mt-1 text-[10px] text-orange-500 font-medium italic">Draft saved</div>}
                                 </motion.div>
                             ))
@@ -347,9 +363,10 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                                         {tab === 'private' && activeMessage.reply && (
                                             <div className="flex gap-3 flex-row-reverse">
                                                 <div className="flex-none pt-1">
-                                                    <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-xs text-white font-bold">A</div>
+                                                    <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-xs text-white font-bold">H</div>
                                                 </div>
                                                 <div className="bg-primary-600 text-white p-4 rounded-2xl rounded-tr-none shadow-md text-sm leading-relaxed">
+                                                    <div className="text-[10px] text-primary-200 mb-1 font-bold opacity-80">Harsh</div>
                                                     {activeMessage.reply}
                                                     <div className="text-[10px] text-primary-200 mt-2 text-right opacity-80">Replied just now</div>
                                                 </div>
@@ -366,6 +383,7 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                                                 </div>
                                             </div>
                                         )}
+                                        <div ref={chatEndRef} />
                                     </div>
                                 </div>
 

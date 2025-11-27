@@ -45,7 +45,7 @@ const Hero: React.FC = () => {
   const textPart2 = "Harsh Gawali";
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary-500/20 dark:bg-primary-500/10 blur-[100px] rounded-full -z-10" />
 
@@ -87,7 +87,7 @@ const Hero: React.FC = () => {
               }`}
             >
               <img 
-                src="./sharsh.png" 
+                src="./profile.png" 
                 alt="Harsh Gawali" 
                 className="w-full h-full object-cover"
               />
@@ -148,9 +148,9 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 0.6 }}
-              className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-center"
+              className="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-center"
             >
-              Turning ideas into fast, user-friendly software
+              Crafting immersive digital experiences with precision and passion.
             </motion.p>
           </motion.div>
 
