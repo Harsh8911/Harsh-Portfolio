@@ -187,7 +187,7 @@ const ProofOfWork: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'certifications' | 'achievements'>('certifications');
 
   return (
-    <SectionWrapper id="proof" className="relative py-24 overflow-hidden">
+    <SectionWrapper id="certifications" className="relative py-24 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-600/5 dark:bg-primary-900/10 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/5 dark:bg-blue-900/10 rounded-full blur-[100px] -z-10" />
@@ -201,7 +201,7 @@ const ProofOfWork: React.FC = () => {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-600 dark:text-primary-400 font-mono text-xs font-bold uppercase tracking-widest mb-4 backdrop-blur-md"
             >
                 <FaFingerprint />
-                <span>Proof of Work</span>
+          <span>Certifications</span>
             </motion.div>
             
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-8">

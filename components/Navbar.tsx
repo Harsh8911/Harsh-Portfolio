@@ -9,18 +9,18 @@ interface NavbarProps {
 }
 
 const navItems: NavItem[] = [
-  { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#story' },
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Projects', href: '#projects' },
   { name: 'Experience', href: '#experience' },
-  { name: 'Milestones', href: '#proof' },
+  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
 
   // Handle scroll effects
@@ -88,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
               }
             }}
             className="text-2xl font-bold font-cursive text-primary-600 dark:text-primary-500 cursor-pointer tracking-tight flex truncate flex-shrink min-w-0"
-            onClick={() => handleNavClick('#hero')}
+            onClick={() => handleNavClick('#home')}
           >
             {brandName.split("").map((char, index) => (
               <motion.span

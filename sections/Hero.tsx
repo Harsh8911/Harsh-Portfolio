@@ -45,7 +45,7 @@ const Hero: React.FC = () => {
   const textPart2 = "Harsh Gawali";
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-950 transition-colors duration-300">
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary-500/20 dark:bg-primary-500/10 blur-[100px] rounded-full -z-10" />
 

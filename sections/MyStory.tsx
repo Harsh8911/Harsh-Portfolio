@@ -67,7 +67,7 @@ const StatCard = ({ icon: Icon, label, value, delay }: { icon: any, label: strin
 
 const MyStory: React.FC = () => {
   return (
-    <SectionWrapper id="story" className="relative overflow-visible">
+    <SectionWrapper id="about" className="relative overflow-visible">
       {/* Dynamic Background Mesh */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
          <div className="absolute top-[20%] right-[10%] w-72 h-72 bg-blue-500/10 rounded-full blur-[80px]" />
@@ -75,24 +75,9 @@ const MyStory: React.FC = () => {
       </div>
 
       {/* Header Section */}
-      <div className="mb-16 text-center">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="inline-block mb-3 px-4 py-1.5 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-600 dark:text-primary-400 text-xs font-bold uppercase tracking-widest"
-        >
-          The Journey So Far
-        </motion.div>
-        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-          Crafting My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400">Digital Identity</span>
-        </h2>
-        
-        {/* Bio Stats Grid - The "HUD" */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
-            <StatCard icon={FaCode} label="Experience" value="3+ Years Coding" delay={0.1} />
-            <StatCard icon={FaUniversity} label="Current Status" value="Engineering Student" delay={0.2} />
-            <StatCard icon={FaMapMarkerAlt} label="Location" value="Maharashtra, India" delay={0.3} />
-        </div>
+      <div className="mb-12 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">About</h2>
+        <p className="text-gray-600 dark:text-gray-400 text-base">My educational journey and professional background.</p>
       </div>
 
       {/* Futuristic Timeline */}

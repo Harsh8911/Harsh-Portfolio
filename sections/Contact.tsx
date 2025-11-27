@@ -58,7 +58,7 @@ const Contact: React.FC<ContactProps> = ({ onChatClick }) => {
        {/* Header */}
        <div className="flex flex-col items-center text-center mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
-                Get <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">in touch</span>
+                Contact
             </h2>
        </div>
 

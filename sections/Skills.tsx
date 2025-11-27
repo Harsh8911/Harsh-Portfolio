@@ -61,9 +61,7 @@ const Skills: React.FC = () => {
             <FaLayerGroup className="text-primary-600 dark:text-primary-400 text-xs" />
             <span className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-300">Expertise</span>
         </motion.div>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
-          Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">Proficiency</span>
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Skills</h2>
         <p className="text-gray-700 dark:text-gray-400 text-sm md:text-base leading-relaxed">
           A comprehensive overview of the technologies and tools I utilize to build scalable solutions.
         </p>

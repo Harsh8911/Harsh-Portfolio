@@ -157,8 +157,8 @@ const Experience: React.FC = () => {
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-600 dark:text-primary-400 mb-4">
             <FaLaptopCode size={20} />
         </div>
-        <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tighter mb-4">
-            My Experience
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tighter mb-4">
+              Experience
         </h2>
         <div className="h-1 w-20 bg-primary-500 mx-auto rounded-full" />
       </div>
